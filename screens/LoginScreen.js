@@ -1,15 +1,46 @@
 import { View, TextInput, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { useRef } from 'react';
-import { register } from '../firebase'
+import { useRef, useState } from 'react';
+import { register, useAuth, LogOut, logIn } from '../firebase'
 
 
 const LoginScreen = () => {
+    const [loading, setLoading] = useState('');
+
+    const currentUser = useAuth();
+
 
     const emailRef = useRef('');
     const passwordRef = useRef('');
 
     async function handleSignUp() {
-      await register(emailRef.current.value, passwordRef.current.value);
+      setLoading(true);
+      try {
+        await register(emailRef.current.value, passwordRef.current.value);
+      } catch {
+        alert('Error');
+      }
+      setLoading(false);
+    }
+    
+    async function handleLogOut() {
+      setLoading(true);
+      try {
+        await LogOut();
+      } catch {
+        alert("Error")
+      }
+      setLoading(false);
+    }
+    
+    
+    async function handleLogIn() {
+      setLoading(true);
+      try {
+        await logIn(emailRef.current.value, passwordRef.current.value);
+      } catch {
+        alert("Error")
+      }
+      setLoading(false);
     }
 
   return (
@@ -30,17 +61,30 @@ const LoginScreen = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={() => {}} style={styles.button}>
+        <TouchableOpacity onPress={handleLogIn} style={styles.button}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleSignUp}
           style={[styles.button, styles.buttonOutline]}
+          disabled={loading || currentUser}
           >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>  
       </View>
+
+      <Text>
+        Currently logged in as: {currentUser?.email}
+      </Text>
+
+        <TouchableOpacity
+          onPress={handleLogOut}
+          disabled={loading || !currentUser}
+          style={[styles.button, styles.buttonOutline]}
+          >
+          <Text style={styles.buttonOutlineText}>Log Out</Text>
+        </TouchableOpacity>  
     </KeyboardAvoidingView>
   );
 }

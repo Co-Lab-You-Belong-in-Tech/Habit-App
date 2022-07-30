@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useState, useEffect } from 'react';
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import "firebase/compat/firestore";
 
 const firebaseConfig = {
@@ -16,4 +17,24 @@ const auth = getAuth(app);
 
 export function register(email, password) {
   return createUserWithEmailAndPassword(auth, email, password);
+}
+
+export function login(email, password) {
+  return signInWithEmailAndPassword(auth, email, password);
+}
+
+export function LogOut() {
+  return signOut(auth);
+}
+
+
+//Custom Hook to return the current signed in user.
+export function useAuth() {
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => setCurrentUser(user))
+    return unsubscribe;
+  }, [])
+  return currentUser;
 }
