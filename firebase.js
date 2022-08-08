@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import firebase from "firebase/compat/app";
 import { useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import "firebase/compat/firestore";
@@ -12,7 +12,16 @@ const firebaseConfig = {
   appId: "1:532066439855:web:69c10ddbcb82cd71c1fa5a",
 };
 
-const app = initializeApp(firebaseConfig);
+let app;
+
+if (firebase.apps.length === 0) {
+  app = firebase.initializeApp(firebaseConfig)
+} else {
+  app = firebase.app();
+}
+
+export { firebase };
+
 const auth = getAuth(app);
 
 export function register(email, password) {
