@@ -3,16 +3,16 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { firebase } from '../firebase';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import { Appbar } from "react-native-paper";
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [goals, setGoals] = useState([]);
   const goalRef = firebase.firestore().collection('goals');
   const [addGoals, setAddGoals] = useState('');
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
-  const _goBack = () => console.log("Went back");
+  // const _goBack = () => navigation.navigate('HabitEmptyState');
 
   const _handleSearch = () => console.log("Searching");
 
@@ -80,7 +80,7 @@ const HomeScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       <Appbar.Header>
-        <Appbar.BackAction onPress={_goBack} />
+        <Appbar.BackAction onPress={() => navigation.navigate("Habit")} />
         <Appbar.Content title="Create a healthy habit" />
       </Appbar.Header>
       <View style={styles.formContainer}>
