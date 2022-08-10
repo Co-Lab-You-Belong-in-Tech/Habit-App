@@ -8,9 +8,9 @@ import HabitEmptyState from "./Screens/HabitEmptyState";
 import { useNavigation } from "@react-navigation/native";
 import { Provider as PaperProvider } from "react-native-paper";
 
-import { createDrawerNavigator } from "@react-navigation/drawer";
+// import { createDrawerNavigator } from "@react-navigation/drawer";
 
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 
 const Stack = createStackNavigator();
 

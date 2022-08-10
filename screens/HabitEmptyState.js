@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { Button, Appbar, Menu, MenuItem} from "react-native-paper";
+import { Button, Appbar, Menu, MenuItem, Drawer} from "react-native-paper";
 import {
-  StyleSheet,
+  StyleSheet
 } from "react-native";
 
 
@@ -11,10 +11,6 @@ function HabitEmptyState({navigation, back}) {
 const [visible, setVisible] = useState(false);
 const openMenu = () => setVisible(true);
 const closeMenu = () => setVisible(false);
-
-
-
-
 
   return (
     <>
@@ -79,8 +75,14 @@ export default HabitEmptyState
 
 const styles = StyleSheet.create({
 button: {
+  height: 50,
+  marginTop: 600,
+  marginLeft: 20,
+  marginRight: 20,
+  borderRadius: 10,
    justifyContent: "center",
-   alignItems: "center",
+   alignContent: "center",
+   
 }
 
 })

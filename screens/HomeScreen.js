@@ -4,12 +4,13 @@ import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { firebase } from '../firebase';
 // import { useNavigation } from '@react-navigation/native';
-import { Appbar } from "react-native-paper";
+import { Appbar, Button, Checkbox, IconButton } from "react-native-paper";
 
 const HomeScreen = ({navigation}) => {
   const [goals, setGoals] = useState([]);
   const goalRef = firebase.firestore().collection('goals');
   const [addGoals, setAddGoals] = useState('');
+  const [checked, setChecked] = useState(false);
   // const navigation = useNavigation();
 
   // const _goBack = () => navigation.navigate('HabitEmptyState');
@@ -84,20 +85,16 @@ const HomeScreen = ({navigation}) => {
         <Appbar.Content title="Create a healthy habit" />
       </Appbar.Header>
       <View style={styles.formContainer}>
+        <Text style={styles.text}>Name your habit</Text>
         <TextInput
           style={styles.input}
-          placeholder="Add A New Goal"
           placeholderTextColor="#aaaaaa"
           onChangeText={(heading) => setAddGoals(heading)}
           value={addGoals}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TouchableOpacity style={styles.button} onPress={addGoal}>
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
       </View>
-
       <FlatList
         data={goals}
         numColumns={1}
@@ -105,15 +102,19 @@ const HomeScreen = ({navigation}) => {
           <View>
             <Pressable
               style={styles.container}
-              onPress={() => navigation.navigate("DetailScreen", { item })}
+              // onPress={() => navigation.navigate("DetailScreen", { item })}
             >
-              <FontAwesome
-                name="trash-o"
-                color="red"
-                onPress={() => deleteGoal(item)}
-                style={styles.goalIcon}
+              <Checkbox
+                status={checked ? "checked" : "unchecked"}
+                onPress={() => {
+                  setChecked(!checked);
+                }}
+                />
+              <IconButton
+              icon='delete'
+              onPress={() => deleteGoal(item)}
+              style={styles.goalIcon}
               />
-
               <View style={styles.innerContainer}>
                 <Text style={styles.itemHeading}>
                   {item.heading[0].toUpperCase() + item.heading.slice(1)}
@@ -123,6 +124,14 @@ const HomeScreen = ({navigation}) => {
           </View>
         )}
       />
+      <Button
+        style={styles.button}
+        mode="contained"
+        onPress={addGoal}
+        uppercase={false}
+      >
+        Create Habit
+      </Button>
     </View>
   );
 
@@ -139,6 +148,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 20,
   },
   innerContainer: {
     alignItems: "center",
@@ -150,16 +160,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginRight: 22,
   },
+  text: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+
   formContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     height: 80,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 100,
+    marginTop: 30,
   },
   input: {
-    height: 48,
-    borderRadius: 5,
+    height: 60,
+    borderRadius: 10,
     overflow: "hidden",
     backgroundColor: "white",
     paddingLeft: 16,
@@ -167,12 +182,13 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   button: {
-    height: 47,
-    borderRadius: 5,
-    backgroundColor: "#788eec",
-    width: 80,
-    alignItems: "center",
+    height: 50,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
+    borderRadius: 10,
     justifyContent: "center",
+    alignContent: "center",
   },
   buttonText: {
     color: "white",
@@ -183,14 +199,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 14,
   },
-  checkboxContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-  },
-  checkbox: {
-    alignSelf: "center",
-  },
-  label: {
-    margin: 8,
-  },
+  
 });
