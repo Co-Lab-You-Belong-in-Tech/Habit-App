@@ -1,6 +1,7 @@
-import { View, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, KeyboardAvoidingView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useAuthentication } from '../hook/useAuthentication';
 import { getAuth, signOut } from 'firebase/auth';
+import { Text } from 'react-native-paper';
 
 const auth = getAuth();
 
@@ -13,7 +14,8 @@ export default function HomeScreen() {
       <TouchableOpacity onPress={() => signOut(auth)} style={styles.button}>
         <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
-   
+      
+      <Text variant="displayMedium">Display Medium</Text>
     </View>
 
     </KeyboardAvoidingView>
