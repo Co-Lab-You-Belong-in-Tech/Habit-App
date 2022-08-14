@@ -16,7 +16,7 @@ const Detail = ({route}) => {
             .update({
                 heading: textHeading
             }).then (() => {
-                navigation.navigate('HomeScreen')
+                navigation.navigate('Habit')
             }).catch ((error) => {
                 alert(error.message)
             })

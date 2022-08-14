@@ -1,60 +1,21 @@
-import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from 'react-native';
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { firebase } from '../firebase';
 // import { useNavigation } from '@react-navigation/native';
-import { Appbar, Button, Checkbox, IconButton } from "react-native-paper";
+import { Appbar, Button, ToggleButton, IconButton} from "react-native-paper";
 
 const HomeScreen = ({navigation}) => {
   const [goals, setGoals] = useState([]);
   const goalRef = firebase.firestore().collection('goals');
   const [addGoals, setAddGoals] = useState('');
-  const [checked, setChecked] = useState(false);
-  // const navigation = useNavigation();
+  const [status, setStatus] = useState("checked");
 
-  // const _goBack = () => navigation.navigate('HabitEmptyState');
-
-  const _handleSearch = () => console.log("Searching");
-
-  const _handleMore = () => console.log("Shown more");
-
-
+  const onButtonToggle = (value) => {
+    setStatus(status === "checked" ? "unchecked" : "checked");
+  };
   
-  //fetch or read the data from firebase
-  useEffect(() => {
-      goalRef
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(
-        querySnapshot => {
-          const goals = [];
-          querySnapshot.forEach((doc) => {
-            const {heading} = doc.data();
-            goals.push({
-              id: doc.id,
-              heading,
-            })
-          })
-          setGoals(goals);
-        }
-      )
-  }, [])
-
-  //delete the goals from firestore db
-
-  const deleteGoal = (goals) => {
-    goalRef
-    .doc(goals.id)
-    .delete()
-    .then(() => {
-      //show a successful alert
-      alert('Deleted successfully')
-    })
-    .catch(error => {
-      alert(error);
-    })
-  }
-
   //add a goal
 
   const addGoal = () => {
@@ -76,6 +37,7 @@ const HomeScreen = ({navigation}) => {
           alert(error);
         })
   }
+  navigation.navigate('Habit')
 }
 
   return (
@@ -95,35 +57,6 @@ const HomeScreen = ({navigation}) => {
           autoCapitalize="none"
         />
       </View>
-      <FlatList
-        data={goals}
-        numColumns={1}
-        renderItem={({ item }) => (
-          <View>
-            <Pressable
-              style={styles.container}
-              // onPress={() => navigation.navigate("DetailScreen", { item })}
-            >
-              <Checkbox
-                status={checked ? "checked" : "unchecked"}
-                onPress={() => {
-                  setChecked(!checked);
-                }}
-                />
-              <IconButton
-              icon='delete'
-              onPress={() => deleteGoal(item)}
-              style={styles.goalIcon}
-              />
-              <View style={styles.innerContainer}>
-                <Text style={styles.itemHeading}>
-                  {item.heading[0].toUpperCase() + item.heading.slice(1)}
-                </Text>
-              </View>
-            </Pressable>
-          </View>
-        )}
-      />
       <Button
         style={styles.button}
         mode="contained"
@@ -146,9 +79,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 5,
     marginHorizontal: 10,
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     marginTop: 20,
+    width: '50%',
+    height: 200,
   },
   innerContainer: {
     alignItems: "center",
@@ -158,7 +93,8 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontWeight: "bold",
     fontSize: 18,
-    marginRight: 22,
+    marginRight: 50,
+
   },
   text: {
     fontSize: 16,
@@ -183,6 +119,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
+    marginTop: 420,
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
@@ -199,5 +136,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 14,
   },
+  toggleButton: {
+    justifyContent: "center",
+    alignItems: "center",
+   borderRadius: 100,
+   height: 120,
+   width: 120,
+   marginRight: 50,
+   marginTop: 15,
+  },
+ 
+  
   
 });
