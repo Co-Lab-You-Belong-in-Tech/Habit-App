@@ -14,30 +14,35 @@ import { firebase } from "../firebase";
 
 
 function HabitEmptyState({navigation, back}) {
-
 const [visible, setVisible] = useState(false);
+const [visibleOne, setVisibleOne] = useState(false);
 const openMenu = () => setVisible(true);
+const openMenuOne = () => setVisibleOne(true);
 const closeMenu = () => setVisible(false);
+const closeMenuOne = () => setVisibleOne(false);
 
 const [goals, setGoals] = useState([]);
 const goalRef = firebase.firestore().collection("goals");
 const [addGoals, setAddGoals] = useState("");
 
 const [status, setStatus] = useState("checked");
-const [statusOne, setStatusOne] = useState("checked");
 const [color, setColor] = useState("#0000FF");
+
+
+const [statusOne, setStatusOne] = useState("checked");
 const [colorOne, setColorOne] = useState("#0000FF");
 const [active, setActive] = useState("");
 
-const onButtonToggle = (value) => {
+const onButtonToggle = () => {
   setStatus(status === "checked" ? "unchecked" : "checked");
-  setColor(color === "#0000FF" ? "#e5e5e5" : "#0000FF");
+  setColor(color === "#0000FF" ? "#E0CCB8" : "#0000FF");
 };
 
-const onEditToggle = (value) => {
+const onEditToggle = () => {
   setStatusOne(status === "checked" ? "unchecked" : "checked");
-  setColorOne(colorOne === "#0000FF" ? "#e5e5e5" : "#0000FF");
+  setColorOne(colorOne === "#0000FF" ? "#E0CCB8" : "#0000FF");
 };
+
 
 //fetch or read the data from firebase
 useEffect(() => {
@@ -69,19 +74,32 @@ useEffect(() => {
 
 
   return (
-    <>
-      <Appbar.Header>
-        <Appbar.Action icon="menu" onPress={() => console.log("Pressed")} />
+    <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+      <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
+        <Menu
+          style={styles.menuOneContainer}
+          visible={visibleOne}
+          onDismiss={closeMenuOne}
+          anchor={
+            <Appbar.Action icon="menu" color="black" onPress={openMenuOne} />
+          }
+        >
+          <Menu.Item icon="home" title="Home" />
+          <Menu.Item icon="home" title="Stats" />
+          <Menu.Item icon="home" title="Group" />
+          <Menu.Item icon="home" title="Profile" />
+        </Menu>
         <Appbar.Content title="CoHabit" />
         {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
         {!back ? (
           <Menu
+            style={styles.doneButton}
             visible={visible}
             onDismiss={closeMenu}
             anchor={
               <Appbar.Action
                 icon="dots-vertical"
-                color="white"
+                color="black"
                 onPress={openMenu}
               />
             }
@@ -95,9 +113,7 @@ useEffect(() => {
         numColumns={1}
         renderItem={({ item }) => (
           <View>
-            <Pressable
-              style={styles.container}
-            >
+            <Pressable style={styles.container}>
               {/* <IconButton
               icon='circle'
               onPress={() => deleteGoal(item)}
@@ -117,7 +133,6 @@ useEffect(() => {
                     onPress={() => navigation.navigate("Edit", { item })}
                   />
                 </View>
-
                 <ToggleButton
                   style={styles.toggleButton}
                   color={color}
@@ -140,7 +155,7 @@ useEffect(() => {
       >
         Add Habit
       </Button>
-    </>
+    </View>
   );
 }
 
@@ -148,6 +163,7 @@ export default HabitEmptyState
 
 const styles = StyleSheet.create({
   button: {
+    backgroundColor: '#006052',
     height: 50,
     marginLeft: 20,
     marginRight: 20,
@@ -157,7 +173,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   container: {
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#E0CCB8",
     padding: 15,
     borderRadius: 15,
     margin: 5,
@@ -200,5 +216,14 @@ const styles = StyleSheet.create({
   editButton: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  menuOneContainer:{
+    marginTop: 40,
+    width: 300,
+    height: 800,
+  },
+  doneButton: {
+    marginTop: 40,
   }
+  
 });

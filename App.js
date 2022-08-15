@@ -4,10 +4,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "./Screens/LoginScreen";
 import HomeScreen from "./Screens/HomeScreen";
 import EditScreen from "./Screens/EditScreen";
-import DetailScreen from "./Screens/HomeScreen";
+import DetailScreen from "./Screens/DetailScreen";
 import HabitEmptyState from "./Screens/HabitEmptyState";
 import { useNavigation } from "@react-navigation/native";
 import { Provider as PaperProvider } from "react-native-paper";
+
 
 // import { createDrawerNavigator } from "@react-navigation/drawer";
 
