@@ -1,12 +1,11 @@
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import LoginScreen from "./Screens/LoginScreen";
-import HomeScreen from "./Screens/HomeScreen";
-import DetailScreen from "./Screens/HomeScreen";
-import HabitEmptyState from "./Screens/HabitEmptyState";
-import { useNavigation } from "@react-navigation/native";
+import HomeScreen from "./screens/HomeScreen";
+import HabitEmptyState from "./screens/HabitEmptyState";
 import { Provider as PaperProvider } from "react-native-paper";
+import ProfileScreen from "./screens/ProfileScreen"
+import EditProfileScreen from "./screens/EditProfileScreen"
 
 // import { createDrawerNavigator } from "@react-navigation/drawer";
 
@@ -19,6 +18,8 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name = "Profile" component={ProfileScreen}/>
+          <Stack.Screen name = "EditProfile" component={EditProfileScreen}/>
           <Stack.Screen name="Habit" component={HabitEmptyState} />
           <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
@@ -28,4 +29,4 @@ export default function App() {
 }
 
 
- 
+
