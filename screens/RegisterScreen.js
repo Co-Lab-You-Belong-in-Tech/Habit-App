@@ -1,17 +1,16 @@
 import {useState} from 'react';
 import { StyleSheet, Text, View,TouchableOpacity, KeyboardAvoidingView, TextInput, Pressable } from 'react-native';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 import { FontAwesome5} from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import {useFonts} from "expo-font";
-
-
-
+import { firebase } from '../config/firebase';
 
 import { useTogglePasswordVisibility } from '../hook/useTogglePasswordVisibility';
 
 
 const auth = getAuth();
+
 
 function containsNumber(str) {
   return /[0-9]/.test(str);
@@ -25,7 +24,22 @@ const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('')
   // const [confirmPassword, setConfirmPassword] = useState('')
-  const [validationMessage, setValidationMessage] = useState('')
+  const [validationMessage, setValidationMessage] = useState('');
+  const userRef = firebase.firestore().collection('users');
+
+  const addUserData = (cred)=>{
+    if(userName && userName.length > 0){
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+   
+      userRef.doc(cred.user.uid).set({
+        userName: userName,
+         createdAt: timestamp,
+         email: cred.user.email,
+         uid: cred.user.uid
+       
+       }).catch(error=>{alert(error)})
+    }
+  }
 
 
 let validateAndSet = (value,setValue) => {
@@ -46,12 +60,11 @@ let validateAndSet = (value,setValue) => {
     }else{
       setValidationMessage('')
     }
-   
-
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigation.navigate('Sign In');
-    } catch (error) {
+      await createUserWithEmailAndPassword(auth, email, password).then((cred)=>{
+        addUserData(cred);
+      });
+     } catch (error) {
       setValidationMessage(error.message);
     }
   }

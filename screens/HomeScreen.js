@@ -2,15 +2,23 @@ import { View, KeyboardAvoidingView, StyleSheet, TouchableOpacity } from 'react-
 import { useAuthentication } from '../hook/useAuthentication';
 import { getAuth, signOut } from 'firebase/auth';
 import { Text } from 'react-native-paper';
+import { firebase } from '../config/firebase';
+import { useEffect, useState } from 'react';
 
 const auth = getAuth();
 
 export default function HomeScreen() {
   const user = useAuthentication();
+
+  console.log(user);
+ if (!user) return null;
+  
   return (
     <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
         <View style={styles.container}>
       <Text>Welcome {user?.email}!</Text>
+      {/* <Text>Welcome {userName}!</Text> */}
+    
       <TouchableOpacity onPress={() => signOut(auth)} style={styles.button}>
         <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
