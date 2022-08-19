@@ -10,9 +10,9 @@ import { useNavigation } from "@react-navigation/native";
 import { Provider as PaperProvider } from "react-native-paper";
 
 
-// import { createDrawerNavigator } from "@react-navigation/drawer";
+// import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
-// const Drawer = createDrawerNavigator();
+// const Tab = createMaterialBottomTabNavigator();
 
 const Stack = createStackNavigator();
 

@@ -1,5 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import { Button, Appbar, Menu, MenuItem, Drawer, ToggleButton, IconButton} from "react-native-paper";
+import {
+  Button,
+  Appbar,
+  Menu,
+  MenuItem,
+  Drawer,
+  ToggleButton,
+  IconButton,
+  BottomNavigation,
+} from "react-native-paper";
 import {
   StyleSheet,
   Text,
@@ -11,9 +20,53 @@ import {
 } from "react-native";
 import { firebase } from "../firebase";
 
+const MusicRoute = () => <Text>Music</Text>;
+
+const AlbumsRoute = () => <Text>Albums</Text>;
+
+const RecentsRoute = () => <Text>Recents</Text>;
+
 
 
 function HabitEmptyState({navigation, back}) {
+
+const [index, setIndex] = useState(0);
+ const [routes] = React.useState([
+   {
+     key: "music",
+     title: "Favorites",
+     focusedIcon: "heart",
+     unfocusedIcon: "heart-outline",
+   },
+   { key: "albums", title: "Albums", focusedIcon: "album" },
+   { key: "recents", title: "Recents", focusedIcon: "history" },
+   {
+     key: "notifications",
+     title: "Notifications",
+     focusedIcon: "bell",
+     unfocusedIcon: "bell-outline",
+   },
+ ]);
+
+const renderScene = BottomNavigation.SceneMap({
+  music: MusicRoute,
+  albums: AlbumsRoute,
+  recents: RecentsRoute,
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const [visible, setVisible] = useState(false);
 const [visibleOne, setVisibleOne] = useState(false);
 const openMenu = () => setVisible(true);
@@ -40,7 +93,7 @@ const onButtonToggle = () => {
 
 const onEditToggle = () => {
   setStatusOne(status === "checked" ? "unchecked" : "checked");
-  setColorOne(colorOne === "#0000FF" ? "#E0CCB8" : "#0000FF");
+  setColorOne(colorOne === "#0000FF" ? "#FFE2CD" : "#0000FF");
 };
 
 
@@ -155,6 +208,11 @@ useEffect(() => {
       >
         Add Habit
       </Button>
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
     </View>
   );
 }
@@ -173,7 +231,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   container: {
-    backgroundColor: "#E0CCB8",
+    backgroundColor: "#FFE2CD",
     padding: 15,
     borderRadius: 15,
     margin: 5,
@@ -199,7 +257,6 @@ const styles = StyleSheet.create({
     height: 120,
     width: 120,
     marginRight: 50,
-    // backgroundColor: 'blue',
   },
   innerContainer: {
     alignItems: "center",
