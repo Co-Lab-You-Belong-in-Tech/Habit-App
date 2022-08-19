@@ -1,4 +1,4 @@
-import { pink, purple } from '@mui/material/colors';
+
 import React from 'react';
 
 import {
@@ -10,33 +10,12 @@ import {
     Image,
     Linking,
 } from 'react-native'
-import { useNavigation } from '@react-navigation/native';
-import { Appbar} from 'react-native-paper';
+import { Appbar, Button } from 'react-native-paper';
 
-const editProfile = () => {
-    return (
-        <SafeAreaView style={styles.container}>
-            <Appbar.Header style={styles.header}>
-                <Appbar.Action icon="close" color="red" onPress={() => console.log("Pressed")}/> 
-                <Appbar.Action icon="account" />
-                <Appbar.Content style={{ fontSize: 15 }} title="Edit Profile" />
-                <Appbar.Action icon="check" color="green" onPress={() => console.log("Pressed")} />
-            </Appbar.Header>
-            <View style={styles.profileBox}>
-                <Image 
-                source={{uri: 'https://media.istockphoto.com/photos/pleasant-young-indian-woman-freelancer-consult-client-via-video-call-picture-id1300972573?k=20&m=1300972573&s=612x612&w=0&h=Tiwi8Y0q8FBg8nL0i5GL_GslELTVLKkEB2e6m63Jlcg='}}
-                style={styles.profileImg}
-                />
-            </View>
-            <View style={styles.textBox}>
-                <Text style={styles.userName}> Username </Text>
-                <Text style={styles.email}> Email </Text>
-            </View>
-        </SafeAreaView>
-    );
-}
 
-const ProfileScreen = () => {
+
+
+const ProfileScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <Appbar.Header style={styles.header}>
@@ -49,7 +28,7 @@ const ProfileScreen = () => {
                 />
             </Appbar.Header>
             <View style={styles.editProfile}>
-                <Text style={styles.profileText} onPress={() => navigation.push(editProfile)}>Edit Profile</Text>
+                <Button mode="text" onPress={() => navigation.navigate("EditProfile")}>Edit Profile</Button>
             </View>
             <View style={styles.profileBox}>
                 <Image 
@@ -61,10 +40,10 @@ const ProfileScreen = () => {
                 <Text style={styles.userName}> @jhoxie </Text>
                 <Text style={styles.email}> hoxie.julise@gmail.com </Text>
             </View>
-            <View style={styles.calendar}>
-                <Text style={styles.date}>Joined August 2022 </Text>
                 <Appbar.Action icon="calendar" />
-            </View>
+         <View>
+            <Text style={styles.date}>Joined August 2022 </Text>
+         </View>
         </SafeAreaView>
     );
 }
@@ -90,7 +69,6 @@ const styles = StyleSheet.create({
     },
     userName: {
         fontSize: 20, 
-        color: pink,
         justifyContent: 'center'
     },
     profileBox: {
@@ -118,10 +96,6 @@ const styles = StyleSheet.create({
         paddingRight: 20
     },
     date: {
-        alignItems: 'center',
-        fontSize: 18
-
     }
-
-    }
+}
 });

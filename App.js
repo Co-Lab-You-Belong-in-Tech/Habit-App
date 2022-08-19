@@ -18,8 +18,8 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name = "Profile" component={ProfileScreen}/>
           <Stack.Screen name = "EditProfile" component={EditProfileScreen}/>
+          <Stack.Screen name = "Profile" component={ProfileScreen}/>
           <Stack.Screen name="Habit" component={HabitEmptyState} />
           <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>

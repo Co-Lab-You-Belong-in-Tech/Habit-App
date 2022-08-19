@@ -10,7 +10,7 @@ import {
     SafeAreaView,
     Image,
 } from 'react-native'
-import { Appbar, Icons} from 'react-native-paper';
+import { Appbar, Icons, TextInput} from 'react-native-paper';
 
 
 const ProfileScreen = () => {
@@ -29,8 +29,8 @@ const ProfileScreen = () => {
                 />
             </View>
             <View style={styles.textBox}>
-                <Text style={styles.userName}> Username </Text>
-                <Text style={styles.email}> Email </Text>
+                <TextInput mode="outlined" label="Username" right={<TextInput.Affix text="/100" />}/>
+               <TextInput mode="outlined" label="Password" right={<TextInput.Affix text="/100" />}/>
             </View>
         </SafeAreaView>
     );
@@ -68,9 +68,9 @@ const styles = StyleSheet.create({
         borderRadius: 200/2,
     }, 
     textBox: {
-        justifyContent: 'flex-start',
-        paddingLeft: 15,
-        paddingTop: 10,
+        justifyContent: 'center',
+        paddingTop: 18
+
     },
     email: {
         fontSize: 16
