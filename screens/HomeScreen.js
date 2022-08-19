@@ -5,10 +5,13 @@ import { FontAwesome } from '@expo/vector-icons';
 import { firebase } from '../config/firebase';
 // import { useNavigation } from '@react-navigation/native';
 import { Appbar, Button, ToggleButton, IconButton} from "react-native-paper";
+import { useAuthentication } from '../hook/useAuthentication';
 
 const HomeScreen = ({navigation}) => {
   const [goals, setGoals] = useState([]);
-  const goalRef = firebase.firestore().collection('goals');
+  const user = useAuthentication();
+  const uid = user.uid;
+  const goalRef =  firebase.firestore().collection('goals');
   const [addGoals, setAddGoals] = useState('');
   const [status, setStatus] = useState("checked");
 
@@ -17,16 +20,16 @@ const HomeScreen = ({navigation}) => {
   };
   
   //add a goal
-
   const addGoal = () => {
     //check if we have a goal written and its not a blank input
     if(addGoals && addGoals.length > 0) {
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
       const data = {
         heading: addGoals,
-        createdAt: timestamp
-      };
-      goalRef
+        createdAt: timestamp,
+        userId: uid,
+      }
+     goalRef
         .add(data)
         .then(() => {
           setAddGoals('');
@@ -39,6 +42,12 @@ const HomeScreen = ({navigation}) => {
   }
   navigation.navigate('Habit')
 }
+      
+
+
+
+  
+
 
   return (
     <View style={{ flex: 1 }}>

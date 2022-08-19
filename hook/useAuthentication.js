@@ -25,7 +25,7 @@ export function useAuthentication() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
-     
+    
       setUser(user)
     })
     return unsubscribe;

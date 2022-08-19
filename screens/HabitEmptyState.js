@@ -1,19 +1,18 @@
 import React, {useState, useEffect} from 'react';
+import { useAuthentication } from '../hook/useAuthentication';
 import { Button, Appbar, Menu, MenuItem, Drawer, ToggleButton, IconButton} from "react-native-paper";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TextInput,
-  Keyboard,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from "react-native";
 import { firebase } from "../config/firebase";
 
+import { getAuth } from "firebase/auth";
 
 
 function HabitEmptyState({navigation, back}) {
+const auth = getAuth();
+const user = auth.currentUser;
+const uid = user.uid;
+console.log(uid);
+  
 const [visible, setVisible] = useState(false);
 const [visibleOne, setVisibleOne] = useState(false);
 const openMenu = () => setVisible(true);
@@ -22,7 +21,7 @@ const closeMenu = () => setVisible(false);
 const closeMenuOne = () => setVisibleOne(false);
 
 const [goals, setGoals] = useState([]);
-const goalRef = firebase.firestore().collection("goals");
+
 const [addGoals, setAddGoals] = useState("");
 
 const [status, setStatus] = useState("checked");
@@ -44,9 +43,13 @@ const onEditToggle = () => {
 };
 
 
+  
 //fetch or read the data from firebase
+
 useEffect(() => {
-  goalRef.orderBy("createdAt", "desc").onSnapshot((querySnapshot) => {
+ 
+  const goalRef = firebase.firestore().collection("goals").where("userId", "==", uid)
+  const unsubscribe = goalRef.onSnapshot((querySnapshot) => {
     const goals = [];
     querySnapshot.forEach((doc) => {
       const { heading } = doc.data();
@@ -57,7 +60,8 @@ useEffect(() => {
     });
     setGoals(goals);
   });
-}, [goals]);
+  return unsubscribe;
+}, []);
 
  const deleteGoal = (goals) => {
    goalRef
