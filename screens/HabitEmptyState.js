@@ -13,8 +13,7 @@ import { firebase } from "../config/firebase";
 
 
 
-const  HabitEmptyState = ({navigation, back}) => {
-
+function HabitEmptyState({navigation, back}) {
 const [visible, setVisible] = useState(false);
 const [visibleOne, setVisibleOne] = useState(false);
 const openMenu = () => setVisible(true);
@@ -58,7 +57,7 @@ useEffect(() => {
     });
     setGoals(goals);
   });
-}, []);
+}, [goals]);
 
  const deleteGoal = (goals) => {
    goalRef
@@ -160,7 +159,7 @@ useEffect(() => {
   );
 }
 
-
+export default HabitEmptyState
 
 const styles = StyleSheet.create({
   button: {
@@ -228,5 +227,3 @@ const styles = StyleSheet.create({
   }
   
 });
-
-export default HabitEmptyState;

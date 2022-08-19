@@ -1,85 +1,151 @@
-import { View, KeyboardAvoidingView, StyleSheet, TouchableOpacity } from 'react-native';
-import { useAuthentication } from '../hook/useAuthentication';
-import { getAuth, signOut } from 'firebase/auth';
-import { Text } from 'react-native-paper';
+import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from 'react-native';
+import React from 'react';
+import {useState, useEffect} from 'react';
+import { FontAwesome } from '@expo/vector-icons';
 import { firebase } from '../config/firebase';
-import { useEffect, useState } from 'react';
+// import { useNavigation } from '@react-navigation/native';
+import { Appbar, Button, ToggleButton, IconButton} from "react-native-paper";
 
-const auth = getAuth();
+const HomeScreen = ({navigation}) => {
+  const [goals, setGoals] = useState([]);
+  const goalRef = firebase.firestore().collection('goals');
+  const [addGoals, setAddGoals] = useState('');
+  const [status, setStatus] = useState("checked");
 
-export default function HomeScreen() {
-  const user = useAuthentication();
-
-  console.log(user);
- if (!user) return null;
+  const onButtonToggle = (value) => {
+    setStatus(status === "checked" ? "unchecked" : "checked");
+  };
   
-  return (
-    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
-        <View style={styles.container}>
-      <Text>Welcome {user?.email}!</Text>
-      {/* <Text>Welcome {userName}!</Text> */}
-    
-      <TouchableOpacity onPress={() => signOut(auth)} style={styles.button}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </TouchableOpacity>
-      
-      <Text variant="displayMedium">Display Medium</Text>
-    </View>
+  //add a goal
 
-    </KeyboardAvoidingView>
-  
-  );
+  const addGoal = () => {
+    //check if we have a goal written and its not a blank input
+    if(addGoals && addGoals.length > 0) {
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      const data = {
+        heading: addGoals,
+        createdAt: timestamp
+      };
+      goalRef
+        .add(data)
+        .then(() => {
+          setAddGoals('');
+          //release Keyboard
+          Keyboard.dismiss();
+        })
+        .catch(error => {
+          alert(error);
+        })
+  }
+  navigation.navigate('Habit')
 }
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate("Habit")} />
+        <Appbar.Content title="Create a healthy habit" />
+      </Appbar.Header>
+      <View style={styles.formContainer}>
+        <Text style={styles.text}>Name your habit</Text>
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          onChangeText={(heading) => setAddGoals(heading)}
+          value={addGoals}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+      </View>
+      <Button
+        style={styles.button}
+        mode="contained"
+        onPress={addGoal}
+        uppercase={false}
+      >
+        Create Habit
+      </Button>
+    </View>
+  );
+
+}
+
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    backgroundColor: "#e5e5e5",
+    padding: 15,
+    borderRadius: 15,
+    margin: 5,
+    marginHorizontal: 10,
+    flexDirection: "column",
     alignItems: "center",
-    flex: 1,
+    marginTop: 20,
+    width: '50%',
+    height: 200,
+  },
+  innerContainer: {
+    alignItems: "center",
+    flexDirection: "column",
+    marginLeft: 45,
+  },
+  itemHeading: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginRight: 50,
+
+  },
+  text: {
+    fontSize: 16,
+    marginBottom: 10,
   },
 
+  formContainer: {
+    flexDirection: "column",
+    height: 80,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 30,
+  },
   input: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    height: 60,
     borderRadius: 10,
-    marginTop: 5,
-  },
-  inputContainer: {
-    width: "80%",
-  },
-  buttonOutline: {
+    overflow: "hidden",
     backgroundColor: "white",
-    marginTop: 5,
-    borderColor: "#0782F9",
-    borderWidth: 2,
-  },
-  buttonOutlineText: {
-    color: "#0782F9",
-    fontWeight: "700",
-    fontSize: 16,
+    paddingLeft: 16,
+    flex: 1,
+    marginRight: 5,
   },
   button: {
-    backgroundColor: "#0782F9",
-    width: "100%",
-    padding: 15,
+    height: 50,
+    marginTop: 420,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
     borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonContainer: {
-    width: "60%",
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
+    alignContent: "center",
   },
-  buttonInputContainer: {},
   buttonText: {
     color: "white",
-    fontWeight: "700",
-    fontSize: 16,
+    fontSize: 20,
   },
-  error: {
-    marginTop: 10,
-    color: 'red',
+  goalIcon: {
+    marginTop: 5,
+    fontSize: 20,
+    marginLeft: 14,
   },
+  toggleButton: {
+    justifyContent: "center",
+    alignItems: "center",
+   borderRadius: 100,
+   height: 120,
+   width: 120,
+   marginRight: 50,
+   marginTop: 15,
+  },
+ 
+  
+  
 });

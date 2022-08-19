@@ -12,6 +12,7 @@ import { useTogglePasswordVisibility } from '../hook/useTogglePasswordVisibility
 const auth = getAuth();
 
 
+
 function containsNumber(str) {
   return /[0-9]/.test(str);
 }
