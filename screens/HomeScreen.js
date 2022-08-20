@@ -35,12 +35,12 @@ const HomeScreen = ({navigation}) => {
           setAddGoals('');
           //release Keyboard
           Keyboard.dismiss();
+          navigation.navigate('Habit')
         })
         .catch(error => {
           alert(error);
         })
   }
-  navigation.navigate('Habit')
 }
       
 
