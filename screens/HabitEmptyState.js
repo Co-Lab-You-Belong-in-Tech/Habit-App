@@ -57,16 +57,6 @@ const renderScene = BottomNavigation.SceneMap({
 
 
 
-
-
-
-
-
-
-
-
-
-
 const [visible, setVisible] = useState(false);
 const [visibleOne, setVisibleOne] = useState(false);
 const openMenu = () => setVisible(true);
@@ -167,11 +157,11 @@ useEffect(() => {
         renderItem={({ item }) => (
           <View>
             <Pressable style={styles.container}>
-              {/* <IconButton
+              <IconButton
               icon='circle'
               onPress={() => deleteGoal(item)}
               style={styles.goalIcon}
-            /> */}
+            />
               <View style={styles.innerContainer}>
                 <View style={styles.twoContainer}>
                   <Text style={styles.itemHeading}>
@@ -208,11 +198,11 @@ useEffect(() => {
       >
         Add Habit
       </Button>
-      <BottomNavigation
+      {/* <BottomNavigation
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-      />
+      /> */}
     </View>
   );
 }

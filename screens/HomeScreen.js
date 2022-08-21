@@ -4,17 +4,32 @@ import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { firebase } from '../firebase';
 // import { useNavigation } from '@react-navigation/native';
-import { Appbar, Button, ToggleButton, IconButton} from "react-native-paper";
+import { Appbar, Button, ToggleButton, IconButton, Switch} from "react-native-paper";
+import SelectDropdown from "react-native-select-dropdown";
 
 const HomeScreen = ({navigation}) => {
   const [goals, setGoals] = useState([]);
   const goalRef = firebase.firestore().collection('goals');
   const [addGoals, setAddGoals] = useState('');
   const [status, setStatus] = useState("checked");
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   const onButtonToggle = (value) => {
     setStatus(status === "checked" ? "unchecked" : "checked");
   };
+
+  //dropdown stuff
+  const countries = ["day", "week", "month", "year"];
+  const iconDropdown = () => {
+    return (
+      <IconButton
+        icon="chevron-down"
+        size={20}
+      />
+    );
+  }
   
   //add a goal
 
@@ -47,7 +62,7 @@ const HomeScreen = ({navigation}) => {
         <Appbar.Content title="Create a healthy habit" />
       </Appbar.Header>
       <View style={styles.formContainer}>
-        <Text style={styles.text}>Name your habit</Text>
+        <Text style={styles.text}>Name your habit:</Text>
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
@@ -56,6 +71,69 @@ const HomeScreen = ({navigation}) => {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+      </View>
+      <View style={styles.numberContainer}>
+        <Text style={styles.text}>Set your goal for your habit:</Text>
+        <View style={styles.twoContainer}>
+          <TextInput
+            style={styles.firstInput}
+            placeholderTextColor="#aaaaaa"
+            keyboardType="numeric"
+            maxLength={10}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.secondInput}
+            placeholderTextColor="black"
+            placeholder="times"
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+        </View>
+      </View>
+      <View style={styles.dropdownContainer}>
+        <Text style={styles.textPer}>per</Text>
+        <SelectDropdown
+          renderDropdownIcon={iconDropdown}
+          dropdownIconPosition="right"
+          buttonStyle={styles.selectContainer}
+          data={countries}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return selectedItem;
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item;
+          }}
+        />
+      </View>
+      <View style={styles.privateContainer}>
+        <Text style={styles.textPrivate}>Private</Text>
+        <Text style={styles.textSwitch}>
+          <Switch
+            color="#006052"
+            value={isSwitchOn}
+            onValueChange={onToggleSwitch}
+          />
+        </Text>
+      </View>
+      <View style={styles.reminderContainer}>
+        <Text style={styles.textReminder}>Reminders</Text>
+        <View style={styles.offContainer}>
+          <Text style={styles.textOff}>Off</Text>
+          <IconButton
+            icon="chevron-right"
+            size={30}
+            onPress={() => console.log("Pressed")}
+          />
+        </View>
       </View>
       <Button
         style={styles.button}
@@ -107,6 +185,33 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 30,
   },
+  textPrivate: {
+    justifyContent: "flex-start",
+    marginRight: 290,
+    marginLeft: 5,
+    fontSize: 16,
+  },
+  textReminder: {
+    marginRight: 250,
+    marginLeft: 5,
+    fontSize: 16,
+  },
+  offContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textOff: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 18,
+ },
+  numberContainer: {
+    flexDirection: "column",
+    height: 80,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 30,
+  },
   input: {
     borderRadius: 10,
     borderWidth: 2,
@@ -118,10 +223,15 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 5,
   },
+  textPer: {
+    marginLeft: 20,
+    marginRight: 10,
+    fontSize: 18,
+  },
   button: {
     backgroundColor: "#006052",
     height: 50,
-    marginTop:420,
+    marginTop: 100,
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
@@ -146,5 +256,70 @@ const styles = StyleSheet.create({
     width: 120,
     marginRight: 50,
     marginTop: 15,
+  },
+  twoContainer: {
+    flexDirection: "row",
+  },
+  dropdownContainer: {
+    flexDirection: "row",
+    height: 80,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    alignItems: "center",
+  },
+  privateContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    height: 50,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+  },
+  reminderContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    height: 50,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+  },
+  selectContainer: {
+    borderRadius: 10,
+    borderWidth: 2,
+    backgroundColor: "#FFF1E7",
+    height: 50,
+    borderRadius: 10,
+    overflow: "hidden",
+    paddingLeft: 16,
+    flex: 0.37,
+    marginRight: 5,
+  },
+  offContainer: {
+    justifyContent: "flex-end",
+    flexDirection: "row",
+  },
+  firstInput: {
+    borderRadius: 10,
+    borderWidth: 2,
+    backgroundColor: "#FFF1E7",
+    height: 50,
+    borderRadius: 10,
+    overflow: "hidden",
+    paddingLeft: 16,
+    flex: 0.5,
+    marginRight: 5,
+  },
+  secondInput: {
+    borderRadius: 10,
+    borderWidth: 2,
+    backgroundColor: "#FFF1E7",
+    height: 50,
+    borderRadius: 10,
+    overflow: "hidden",
+    paddingLeft: 16,
+    flex: 1,
+    marginRight: 5,
+    marginLeft: 10,
   },
 });
