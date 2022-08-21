@@ -78,7 +78,7 @@ const [active, setActive] = useState("");
 
 const onButtonToggle = () => {
   setStatus(status === "checked" ? "unchecked" : "checked");
-  setColor(color === "#0000FF" ? "#E0CCB8" : "#0000FF");
+  setColor(color === "#0000FF" ? "#FFE2CD" : "#0000FF");
 };
 
 const onEditToggle = () => {
@@ -157,11 +157,11 @@ useEffect(() => {
         renderItem={({ item }) => (
           <View>
             <Pressable style={styles.container}>
-              <IconButton
+              {/* <IconButton
               icon='circle'
               onPress={() => deleteGoal(item)}
               style={styles.goalIcon}
-            />
+            /> */}
               <View style={styles.innerContainer}>
                 <View style={styles.twoContainer}>
                   <Text style={styles.itemHeading}>
@@ -185,6 +185,20 @@ useEffect(() => {
                   onPress={onButtonToggle}
                 />
               </View>
+                <View style={styles.twoContainer}>
+                  <ToggleButton
+                    style={styles.minusButton}
+                    icon="minus"
+                    size={30}
+                    value="minus"
+                    />
+                  <ToggleButton
+                    style={styles.plusButton}
+                    size={30}
+                    icon="plus"
+                    value="plus"
+                  />
+                </View>
             </Pressable>
           </View>
         )}
@@ -220,6 +234,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
   },
+  twoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  minusButton: {
+    marginRight: 90
+  },
+
   container: {
     backgroundColor: "#FFE2CD",
     padding: 15,
@@ -240,12 +263,12 @@ const styles = StyleSheet.create({
   toggleButton: {
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 100,
+    borderRadius: 80,
     borderWidth: 5,
-    borderTopLeftRadius: 100,
-    borderTopRightRadius: 100,
-    height: 120,
-    width: 120,
+    borderTopLeftRadius: 80,
+    borderTopRightRadius: 80,
+    height: 100,
+    width: 100,
     marginRight: 50,
   },
   innerContainer: {
@@ -255,7 +278,7 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontWeight: "bold",
     fontSize: 18,
-    marginRight: 40,
+    marginLeft: 20,
   },
   twoContainer: {
     flexDirection: "row",
@@ -263,6 +286,7 @@ const styles = StyleSheet.create({
   editButton: {
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: 40
   },
   menuOneContainer:{
     marginTop: 40,
