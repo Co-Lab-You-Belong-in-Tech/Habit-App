@@ -30,7 +30,7 @@ const ProfileScreen = () => {
             </View>
             <View style={styles.textBox}>
                 <TextInput mode="outlined" label="Username" right={<TextInput.Affix text="/100" />}/>
-               <TextInput mode="outlined" label="Password" right={<TextInput.Affix text="/100" />}/>
+            <TextInput mode="outlined" label="Password" right={<TextInput.Affix text="/100" />}/>
             </View>
         </SafeAreaView>
     );
