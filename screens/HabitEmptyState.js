@@ -19,43 +19,11 @@ import {
   Pressable,
 } from "react-native";
 import { firebase } from "../firebase";
-
-const MusicRoute = () => <Text>Music</Text>;
-
-const AlbumsRoute = () => <Text>Albums</Text>;
-
-const RecentsRoute = () => <Text>Recents</Text>;
-
-
+import * as Svg from "react-native-svg";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
+// import { CircularProgress } from "react-native-circular-gradient-progress";
 
 function HabitEmptyState({navigation, back}) {
-
-const [index, setIndex] = useState(0);
- const [routes] = React.useState([
-   {
-     key: "music",
-     title: "Favorites",
-     focusedIcon: "heart",
-     unfocusedIcon: "heart-outline",
-   },
-   { key: "albums", title: "Albums", focusedIcon: "album" },
-   { key: "recents", title: "Recents", focusedIcon: "history" },
-   {
-     key: "notifications",
-     title: "Notifications",
-     focusedIcon: "bell",
-     unfocusedIcon: "bell-outline",
-   },
- ]);
-
-const renderScene = BottomNavigation.SceneMap({
-  music: MusicRoute,
-  albums: AlbumsRoute,
-  recents: RecentsRoute,
-});
-
-
-
 
 const [visible, setVisible] = useState(false);
 const [visibleOne, setVisibleOne] = useState(false);
@@ -67,6 +35,7 @@ const closeMenuOne = () => setVisibleOne(false);
 const [goals, setGoals] = useState([]);
 const goalRef = firebase.firestore().collection("goals");
 const [addGoals, setAddGoals] = useState("");
+
 
 const [status, setStatus] = useState("checked");
 const [color, setColor] = useState("#0000FF");
@@ -102,18 +71,39 @@ useEffect(() => {
   });
 }, []);
 
- const deleteGoal = (goals) => {
-   goalRef
-     .doc(goals.id)
-     .delete()
-     .then(() => {
-       //show a successful alert
-       alert("Deleted successfully");
-     })
-     .catch((error) => {
-       alert(error);
-     });
- };
+const deleteGoal = (goals) => {
+  goalRef
+  .doc(goals.id)
+  .delete()
+  .then(() => {
+    //show a successful alert
+    alert("Deleted successfully");
+  })
+  .catch((error) => {
+    alert(error);
+  });
+};
+
+//circle animation/progress
+const [fill, setFill] = useState(0);
+
+   const onPlusToggle = () => {
+     setFill(fill + 20);
+   }
+
+   const onMinusToggle = () => {
+     setFill(fill - 20);
+   }
+
+   const checkDropdown = () => {
+     return 
+     
+     
+     <IconButton icon="check" size={50} 
+     />;
+     
+
+   };
 
 
   return (
@@ -176,29 +166,33 @@ useEffect(() => {
                     onPress={() => navigation.navigate("Edit", { item })}
                   />
                 </View>
-                <ToggleButton
-                  style={styles.toggleButton}
-                  color={color}
-                  icon="check"
-                  value="check"
-                  status={status}
-                  onPress={onButtonToggle}
+                <AnimatedCircularProgress
+                  style={styles.circularProgress}
+                  rotation={0}
+                  size={100}
+                  width={10}
+                  fill={fill}
+                  tintColor="#006052"
+                  onAnimationComplete={() => console.log("onAnimationComplete")}
+                  backgroundColor="#D9D9D9"
                 />
               </View>
-                <View style={styles.twoContainer}>
-                  <ToggleButton
-                    style={styles.minusButton}
-                    icon="minus"
-                    size={30}
-                    value="minus"
-                    />
-                  <ToggleButton
-                    style={styles.plusButton}
-                    size={30}
-                    icon="plus"
-                    value="plus"
+              <View style={styles.twoContainer}>
+                <ToggleButton
+                  style={styles.minusButton}
+                  icon="minus"
+                  onPress={onMinusToggle}
+                  size={30}
+                  value="minus"
                   />
-                </View>
+                <ToggleButton
+                  style={styles.plusButton}
+                  size={30}
+                  onPress={onPlusToggle}
+                  icon="plus"
+                  value="plus"
+                />
+              </View>
             </Pressable>
           </View>
         )}
@@ -212,11 +206,6 @@ useEffect(() => {
       >
         Add Habit
       </Button>
-      {/* <BottomNavigation
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
-        renderScene={renderScene}
-      /> */}
     </View>
   );
 }
@@ -233,6 +222,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignContent: "center",
+  },
+  circularProgress: {
+    marginRight: 40,
   },
   twoContainer: {
     flexDirection: "row",
