@@ -1,5 +1,5 @@
+import { useForkRef } from '@mui/material';
 import { pink, purple } from '@mui/material/colors';
-import React from 'react';
 //import { mdiCheckBold, mdiCloseThick} from '@mdi/js';
 
 import {
@@ -12,12 +12,28 @@ import {
 } from 'react-native'
 import { Appbar, Icons, TextInput} from 'react-native-paper';
 
+// const userID = doc(db, "users");
+// const userSnap = await getUserInfo(userID);
 
-const ProfileScreen = () => {
+// if (userSnap.exists()) {
+//     console.log("Data:", userSnap.data());
+// } else {
+//     //will not return anything 
+//     console.log("You didnt get the right thing")
+// }
+
+const user = firebase.auth().currentUser;
+
+user.providerData.forEach((userInfo) => {
+    console.log('User info for provider: ', userInfo)
+})
+
+
+const ProfileScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <Appbar.Header style={styles.header}>
-                <Appbar.Action icon="close" color="red" onPress={() => console.log("Pressed")}/> 
+                <Appbar.Action icon="close" color="red" onPress={() => navigation.navigate("Profile")}/> 
                 <Appbar.Action icon="account" />
                 <Appbar.Content style={{ fontSize: 15 }} title="Edit Profile" />
                 <Appbar.Action icon="check" color="green" onPress={() => console.log("Pressed")} />

@@ -1,4 +1,4 @@
-
+// import { collection, userName } from 'firebase/firestore';
 import React from 'react';
 
 import {
@@ -10,8 +10,24 @@ import {
     Image,
     Linking,
 } from 'react-native'
+// import { getUserInfo } from 'react-native-element/Library/react-native-element-mini/EMini';
 import { Appbar, Button } from 'react-native-paper';
 
+// const userID = doc(db, "users");
+// const userSnap = await getUserInfo(userID);
+
+// if (userSnap.exists()) {
+//     console.log("Data:", userSnap.data());
+// } else {
+//     //will not return anything 
+//     console.log("You didnt get the right thing")
+// }
+
+const user = firebase.auth().currentUser;
+
+user.providerData.forEach((userInfo) => {
+    console.log('User info for provider: ', userInfo)
+})
 
 
 
@@ -36,14 +52,13 @@ const ProfileScreen = ({navigation}) => {
                 style={styles.profileImg}
                 />
             </View>
-            <View style={styles.textBox}>
+            <View style={styles.textBoxOne}>
                 <Text style={styles.userName}> @jhoxie </Text>
                 <Text style={styles.email}> hoxie.julise@gmail.com </Text>
             </View>
-                <Appbar.Action icon="calendar" />
-         <View>
-            <Text style={styles.date}>Joined August 2022 </Text>
-         </View>
+            <View style={styles.textBoxTwo}>
+                <Text style={styles.date}> Joined August 2022 </Text>
+            </View>
         </SafeAreaView>
     );
 }
@@ -68,34 +83,31 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     userName: {
-        fontSize: 20, 
+        fontSize: 50, 
         justifyContent: 'center'
     },
     profileBox: {
         paddingLeft: 15
     },
     profileImg: {
-        width: 75,
-        height: 75,
+        width: 95,
+        height: 95,
         borderRadius: 200/2,
     }, 
-    textBox: {
+    textBoxOne: {
         justifyContent: 'flex-start',
         paddingLeft: 15,
-        paddingTop: 10,
+        paddingTop: 20,
+    },
     userName: {
-        fontSize: 16,
+        fontSize: 20,
     },
     email: {
-        fontSize: 12
+        fontSize: 15
     },
-    calendar: {
-        flexDirection: "row"
-    },
-    calIcon: {
-        paddingRight: 20
-    },
-    date: {
+    textBoxTwo: {
+        justifyContent: 'flex-start',
+        paddingLeft: 15,
+        paddingTop: 1,
     }
-}
 });

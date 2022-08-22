@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import { useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
+import { getStorage } from 'firebase/storage';
 import "firebase/compat/firestore";
 
 const firebaseConfig = {
@@ -36,6 +37,7 @@ export function LogOut() {
   return signOut(auth);
 }
 
+export const storage = getStorage(app)
 
 //Custom Hook to return the current signed in user.
 export function useAuth() {
