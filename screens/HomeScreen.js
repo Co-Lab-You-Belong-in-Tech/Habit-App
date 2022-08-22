@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable} from 'react-native';
 import React from 'react';
 import {useState, useEffect} from 'react';
@@ -57,26 +58,70 @@ const HomeScreen = ({navigation}) => {
 
   //add a goal
 
+=======
+import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from 'react-native';
+import React from 'react';
+import {useState, useEffect} from 'react';
+import { FontAwesome } from '@expo/vector-icons';
+import { firebase } from '../config/firebase';
+// import { useNavigation } from '@react-navigation/native';
+import { Appbar, Button, ToggleButton, IconButton} from "react-native-paper";
+import { useAuthentication } from '../hook/useAuthentication';
+
+const HomeScreen = ({navigation}) => {
+  const [goals, setGoals] = useState([]);
+  const user = useAuthentication();
+  const uid = user.uid;
+  const goalRef =  firebase.firestore().collection('goals');
+  const [addGoals, setAddGoals] = useState('');
+  const [status, setStatus] = useState("checked");
+
+  const onButtonToggle = (value) => {
+    setStatus(status === "checked" ? "unchecked" : "checked");
+  };
+  
+  //add a goal
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
   const addGoal = () => {
     //check if we have a goal written and its not a blank input
     if(addGoals && addGoals.length > 0) {
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
       const data = {
         heading: addGoals,
+<<<<<<< HEAD
         createdAt: timestamp
       };
       goalRef
+=======
+        createdAt: timestamp,
+        userId: uid,
+      }
+     goalRef
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
         .add(data)
         .then(() => {
           setAddGoals('');
           //release Keyboard
           Keyboard.dismiss();
+<<<<<<< HEAD
+=======
+          navigation.navigate('Habit')
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
         })
         .catch(error => {
           alert(error);
         })
   }
 }
+<<<<<<< HEAD
+=======
+      
+
+
+
+  
+
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
 
   return (
     <View style={{ flex: 1 }}>
@@ -95,6 +140,7 @@ const HomeScreen = ({navigation}) => {
           autoCapitalize="none"
         />
       </View>
+<<<<<<< HEAD
       <FlatList
         data={goals}
         numColumns={1}
@@ -124,6 +170,8 @@ const HomeScreen = ({navigation}) => {
           </View>
         )}
       />
+=======
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
       <Button
         style={styles.button}
         mode="contained"
@@ -146,9 +194,17 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 5,
     marginHorizontal: 10,
+<<<<<<< HEAD
     flexDirection: "row",
     alignItems: "center",
     marginTop: 20,
+=======
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: 20,
+    width: '50%',
+    height: 200,
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
   },
   innerContainer: {
     alignItems: "center",
@@ -158,7 +214,12 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontWeight: "bold",
     fontSize: 18,
+<<<<<<< HEAD
     marginRight: 22,
+=======
+    marginRight: 50,
+
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
   },
   text: {
     fontSize: 16,
@@ -183,6 +244,10 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
+<<<<<<< HEAD
+=======
+    marginTop: 420,
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
@@ -199,5 +264,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 14,
   },
+<<<<<<< HEAD
+=======
+  toggleButton: {
+    justifyContent: "center",
+    alignItems: "center",
+   borderRadius: 100,
+   height: 120,
+   width: 120,
+   marginRight: 50,
+   marginTop: 15,
+  },
+ 
+  
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
   
 });

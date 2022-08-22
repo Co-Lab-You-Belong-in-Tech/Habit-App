@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import React from 'react';
 import { useState } from 'react';
@@ -69,3 +70,38 @@ const styles = StyleSheet.create({
         backgroundColor: '#0de065'
     }
 })
+=======
+import * as React from "react";
+import { Drawer } from "react-native-paper";
+
+const MyComponent = () => {
+  const [active, setActive] = React.useState("");
+
+  return (
+    <Drawer.Section title="CoHabit">
+      <Drawer.Item
+        label="Home"
+        active={active === "first"}
+        onPress={() => setActive("first")}
+      />
+      <Drawer.Item
+        label="Stats"
+        active={active === "second"}
+        onPress={() => setActive("second")}
+      />
+      <Drawer.Item
+        label="Group"
+        active={active === "third"}
+        onPress={() => setActive("third")}
+      />
+      <Drawer.Item
+        label="Profile"
+        active={active === "fourth"}
+        onPress={() => setActive("fourth")}
+      />
+    </Drawer.Section>
+  );
+};
+
+export default MyComponent;
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -6,14 +7,18 @@ import HabitEmptyState from "./screens/HabitEmptyState";
 import { Provider as PaperProvider } from "react-native-paper";
 import ProfileScreen from "./screens/ProfileScreen"
 import EditProfileScreen from "./screens/EditProfileScreen"
+=======
+import React from 'react';
+import './config/firebase';
+import RootNavigation from './navigation';
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
 
 // import { createDrawerNavigator } from "@react-navigation/drawer";
 
 // const Drawer = createDrawerNavigator();
 
-const Stack = createStackNavigator();
-
 export default function App() {
+<<<<<<< HEAD
   return (
     <PaperProvider>
       <NavigationContainer>
@@ -26,6 +31,11 @@ export default function App() {
       </NavigationContainer>
     </PaperProvider>
   );
+=======
+  return ( 
+    <RootNavigation />
+  )
+>>>>>>> 2f6fd3470824b4213285032a836321615747b48e
 }
 
 
