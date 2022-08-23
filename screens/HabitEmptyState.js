@@ -3,8 +3,10 @@ import { useAuthentication } from '../hook/useAuthentication';
 import { Button, Appbar, Menu, MenuItem, Drawer, ToggleButton, IconButton} from "react-native-paper";
 import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from "react-native";
 import { firebase } from "../config/firebase";
-
 import { getAuth } from "firebase/auth";
+import * as Svg from "react-native-svg";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
+
 
 
 function HabitEmptyState({navigation, back}) {
@@ -75,92 +77,130 @@ useEffect(() => {
        alert(error);
      });
  };
+ 
+ //circle animation/progress
+const [fill, setFill] = useState(0);
 
+const onPlusToggle = () => {
+  setFill(fill + 20);
+}
 
-  return (
-    <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
-      <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
+const onMinusToggle = () => {
+  setFill(fill - 20);
+}
+
+const checkDropdown = () => {
+  return 
+  
+  
+  <IconButton icon="check" size={50} 
+  />;
+  
+
+};
+
+ return (
+  <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+    <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
+      <Menu
+        style={styles.menuOneContainer}
+        visible={visibleOne}
+        onDismiss={closeMenuOne}
+        anchor={
+          <Appbar.Action icon="menu" color="black" onPress={openMenuOne} />
+        }
+      >
+        <Menu.Item icon="home" title="Home" />
+        <Menu.Item icon="home" title="Stats" />
+        <Menu.Item icon="home" title="Group" />
+        <Menu.Item icon="home" title="Profile" />
+      </Menu>
+      <Appbar.Content title="CoHabit" />
+      {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+      {!back ? (
         <Menu
-          style={styles.menuOneContainer}
-          visible={visibleOne}
-          onDismiss={closeMenuOne}
+          style={styles.doneButton}
+          visible={visible}
+          onDismiss={closeMenu}
           anchor={
-            <Appbar.Action icon="menu" color="black" onPress={openMenuOne} />
+            <Appbar.Action
+              icon="dots-vertical"
+              color="black"
+              onPress={openMenu}
+            />
           }
         >
-          <Menu.Item icon="home" title="Home" />
-          <Menu.Item icon="home" title="Stats" />
-          <Menu.Item icon="home" title="Group" />
-          <Menu.Item icon="home" title="Profile" />
+          <Menu.Item icon="pencil" onPress={onEditToggle} title="Edit" />
         </Menu>
-        <Appbar.Content title="CoHabit" />
-        {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-        {!back ? (
-          <Menu
-            style={styles.doneButton}
-            visible={visible}
-            onDismiss={closeMenu}
-            anchor={
-              <Appbar.Action
-                icon="dots-vertical"
-                color="black"
-                onPress={openMenu}
-              />
-            }
-          >
-            <Menu.Item icon="pencil" onPress={onEditToggle} title="Edit" />
-          </Menu>
-        ) : null}
-      </Appbar.Header>
-      <FlatList
-        data={goals}
-        numColumns={1}
-        renderItem={({ item }) => (
-          <View>
-            <Pressable style={styles.container}>
-              {/* <IconButton
-              icon='circle'
-              onPress={() => deleteGoal(item)}
-              style={styles.goalIcon}
-            /> */}
-              <View style={styles.innerContainer}>
-                <View style={styles.twoContainer}>
-                  <Text style={styles.itemHeading}>
-                    {item.heading[0].toUpperCase() + item.heading.slice(1)}
-                  </Text>
-                  <ToggleButton
-                    style={styles.editButton}
-                    color={colorOne}
-                    icon="pencil"
-                    value="check"
-                    status={statusOne}
-                    onPress={() => navigation.navigate("Edit", { item })}
-                  />
-                </View>
+      ) : null}
+    </Appbar.Header>
+    <FlatList
+      data={goals}
+      numColumns={1}
+      renderItem={({ item }) => (
+        <View>
+          <Pressable style={styles.container}>
+            {/* <IconButton
+            icon='circle'
+            onPress={() => deleteGoal(item)}
+            style={styles.goalIcon}
+          /> */}
+            <View style={styles.innerContainer}>
+              <View style={styles.twoContainer}>
+                <Text style={styles.itemHeading}>
+                  {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                </Text>
                 <ToggleButton
-                  style={styles.toggleButton}
-                  color={color}
-                  icon="check"
+                  style={styles.editButton}
+                  color={colorOne}
+                  icon="pencil"
                   value="check"
-                  status={status}
-                  onPress={onButtonToggle}
+                  status={statusOne}
+                  onPress={() => navigation.navigate("Edit", { item })}
                 />
               </View>
-            </Pressable>
-          </View>
-        )}
-      />
-      <Button
-        style={styles.button}
-        icon="plus"
-        mode="contained"
-        onPress={() => navigation.navigate("Home")}
-        uppercase={false}
-      >
-        Add Habit
-      </Button>
-    </View>
-  );
+              <AnimatedCircularProgress
+                style={styles.circularProgress}
+                rotation={0}
+                size={100}
+                width={10}
+                fill={fill}
+                tintColor="#006052"
+                onAnimationComplete={() => console.log("onAnimationComplete")}
+                backgroundColor="#D9D9D9"
+              />
+            </View>
+            <View style={styles.twoContainer}>
+              <ToggleButton
+                style={styles.minusButton}
+                icon="minus"
+                onPress={onMinusToggle}
+                size={30}
+                value="minus"
+                />
+              <ToggleButton
+                style={styles.plusButton}
+                size={30}
+                onPress={onPlusToggle}
+                icon="plus"
+                value="plus"
+              />
+            </View>
+          </Pressable>
+        </View>
+      )}
+    />
+    <Button
+      style={styles.button}
+      icon="plus"
+      mode="contained"
+      onPress={() => navigation.navigate("Home")}
+      uppercase={false}
+    >
+      Add Habit
+    </Button>
+  </View>
+);
 }
 
 export default HabitEmptyState
@@ -176,8 +216,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
   },
+  circularProgress: {
+    marginRight: 40,
+  },
+  twoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  minusButton: {
+    marginRight: 90
+  },
+
   container: {
-    backgroundColor: "#E0CCB8",
+    backgroundColor: "#FFE2CD",
     padding: 15,
     borderRadius: 15,
     margin: 5,
@@ -196,14 +248,13 @@ const styles = StyleSheet.create({
   toggleButton: {
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 100,
+    borderRadius: 80,
     borderWidth: 5,
-    borderTopLeftRadius: 100,
-    borderTopRightRadius: 100,
-    height: 120,
-    width: 120,
+    borderTopLeftRadius: 80,
+    borderTopRightRadius: 80,
+    height: 100,
+    width: 100,
     marginRight: 50,
-    // backgroundColor: 'blue',
   },
   innerContainer: {
     alignItems: "center",
@@ -212,7 +263,7 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontWeight: "bold",
     fontSize: 18,
-    marginRight: 40,
+    marginLeft: 20,
   },
   twoContainer: {
     flexDirection: "row",
@@ -220,6 +271,7 @@ const styles = StyleSheet.create({
   editButton: {
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: 40
   },
   menuOneContainer:{
     marginTop: 40,

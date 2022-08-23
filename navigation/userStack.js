@@ -8,7 +8,8 @@ import EditScreen from '../Screens/EditScreen';
 import DetailScreen from '../Screens/DetailScreen';
 import HomeScreen from '../Screens/HomeScreen';
 import { Provider as PaperProvider } from "react-native-paper";
-// import ProfileScreen from '../Screens/ProfileScreen';
+import ProfileScreen from '../Screens/ProfileScreen';
+import EditProfileScreen from '../Screens/EditProfileScreen';
 
 
 
@@ -22,9 +23,10 @@ export default function UserStack() {
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
           <Stack.Screen name="Habit" component={HabitEmptyState} />
           <Stack.Screen name="Home" component={HomeScreen} />
-        {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
           <Stack.Screen name="Edit" component={EditScreen} />
           <Stack.Screen name="Detail" component={DetailScreen} />
         </Stack.Navigator>
