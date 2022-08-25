@@ -39,7 +39,7 @@
     "react-navigation": "^4.4.4"
   },
   "devDependencies": {
-    "firebase": "^9.9.1"
+    "firebase": "^9.9.3"
   },
   "private": true
 }

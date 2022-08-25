@@ -13,23 +13,6 @@ import {
 // import { getUserInfo } from 'react-native-element/Library/react-native-element-mini/EMini';
 import { Appbar, Button } from 'react-native-paper';
 
-// const userID = doc(db, "users");
-// const userSnap = await getUserInfo(userID);
-
-// if (userSnap.exists()) {
-//     console.log("Data:", userSnap.data());
-// } else {
-//     //will not return anything 
-//     console.log("You didnt get the right thing")
-// }
-
-const user = firebase.auth().currentUser;
-
-user.providerData.forEach((userInfo) => {
-    console.log('User info for provider: ', userInfo)
-})
-
-
 
 const ProfileScreen = ({navigation}) => {
     return (
