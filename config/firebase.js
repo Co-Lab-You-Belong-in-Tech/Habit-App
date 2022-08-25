@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import  Constants from "expo-constants";
 import "firebase/compat/firestore";
+import "firebase/compat/storage";
 
 const firebaseConfig = {
   apiKey: Constants.manifest?.extra?.firebaseApiKey,

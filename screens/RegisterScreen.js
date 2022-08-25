@@ -36,7 +36,8 @@ const RegisterScreen = ({ navigation }) => {
         userName: userName,
          createdAt: timestamp,
          email: cred.user.email,
-         uid: cred.user.uid
+         uid: cred.user.uid,
+         userImg: null,
        
        }).catch(error=>{alert(error)})
     }

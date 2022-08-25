@@ -1,24 +1,40 @@
-import { View, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Text, TextInput} from 'react-native';
+import { SafeAreaView, View, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Text, TextInput} from 'react-native';
 
-import { FontAwesome5} from '@expo/vector-icons'; 
-import {useFonts} from "expo-font";
+import { FontAwesome5} from '@expo/vector-icons';
+import AppLoading from 'expo-app-loading'; 
+import * as Font from 'expo-font';
+import { useEffect, useState } from 'react';
+
+const fetchFonts = () => {
+    return Font.loadAsync({
+        Poppins_Bold: require('../assets/fonts/Poppins-Bold.ttf'),
+        Poppins_Regular: require('../assets/fonts/Poppins-Regular.ttf'),
+        Poppins_Medium: require('../assets/fonts/Poppins-Medium.ttf')
+    })};
+
 
 
 
 
 export default function WelcomeScreen({navigation}) {
 
-  const [loaded] = useFonts({
-    Poppins_Bold: require('../assets/fonts/Poppins-Bold.ttf'),
-    Poppins_Regular: require('../assets/fonts/Poppins-Regular.ttf'),
-    Poppins_Medium: require('../assets/fonts/Poppins-Medium.ttf')
-  });
-  
-  if (!loaded) {
-    return null;
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+    if (!fontsLoaded) {
+      return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onError={console.warn}
+        onFinish={() => setFontsLoaded(true)}
+      />
+    );
   }
+
+  
+  
    return(
-    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
+    
+      <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
         <View>
           <Text style={styles.headingText}>Join CoHabit</Text>
         </View>
@@ -59,6 +75,8 @@ export default function WelcomeScreen({navigation}) {
         
 
     </KeyboardAvoidingView>
+
+    
    )
 
 }
@@ -74,11 +92,13 @@ const styles = StyleSheet.create({
    headingText: {
     fontFamily: 'Poppins_Bold',
     height: 35,
-    marginLeft: 15,
-    marginTop: 40,
+    left: 15,
+    top: 40,
+    width: 211,
     color: "#006052",
     fontSize: 32,
     lineHeight: 35.2,
+    position: 'absolute',
   },
   subHeading: {
     fontFamily: 'Poppins_Regular',

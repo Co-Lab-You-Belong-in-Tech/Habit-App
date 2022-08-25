@@ -22,13 +22,23 @@ export default function UserStack() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-          <Stack.Screen name="Habit" component={HabitEmptyState} />
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Edit" component={EditScreen} />
-          <Stack.Screen name="Detail" component={DetailScreen} />
+        <Stack.Navigator 
+          screenOptions={{
+            headerStyle: {
+            backgroundColor: '#FFF1E7',
+            shadowColor: '#FFF1E7',
+            elevation: 0,
+            height: 56,
+          },
+
+      }}
+        >
+          <Stack.Screen name="Profile" options={{title: '', headerShown: false} } component={ProfileScreen} />
+          <Stack.Screen name="EditProfile" options={{headerShown: false} } component={EditProfileScreen} />
+          <Stack.Screen name="Habit" options={{title: ''} } component={HabitEmptyState} />
+          <Stack.Screen name="Home" options={{title: ''} } component={HomeScreen} />
+          <Stack.Screen name="Edit" options={{title: ''} } component={EditScreen} />
+          <Stack.Screen name="Detail" options={{title: ''} } component={DetailScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

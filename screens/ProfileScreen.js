@@ -7,7 +7,7 @@ import { firebase } from '../config/firebase';
 import { useEffect, useState } from 'react';
 import { Appbar, Button, ToggleButton, IconButton} from "react-native-paper";
 import moment from 'moment';
-import { DATE_FORMAT } from 'react-native-gifted-chat';
+
 
 export default function ProfileScreen({navigation}) {
   const auth = getAuth();
@@ -17,26 +17,27 @@ export default function ProfileScreen({navigation}) {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState('')
 
-  
+  async function getUserInfo(){
+    let doc = await firebase
+    .firestore()
+    .collection('users')
+    .doc(uid)
+    .get();
+
+    if (!doc.exists){
+      Alert.alert('No user data found!')
+    } else {
+      let dataObj = doc.data();
+      console.log(dataObj);
+      setUserData(dataObj);
+    }
+  }
 
   useEffect(() => {
-    async function getUserInfo(){
-      let doc = await firebase
-      .firestore()
-      .collection('users')
-      .doc(uid)
-      .get();
-
-      if (!doc.exists){
-        Alert.alert('No user data found!')
-      } else {
-        let dataObj = doc.data();
-        console.log(dataObj);
-        setUserData(dataObj);
-      }
-    }
     getUserInfo();
-  }, [])
+    
+    navigation.addListener("focus", () => setLoading(!loading));
+  }, [navigation, loading])
 
 
   
@@ -56,15 +57,18 @@ export default function ProfileScreen({navigation}) {
         </View>
         <View style={styles.profileBox}>
             <Image 
-            source={{uri: 'https://media.istockphoto.com/photos/pleasant-young-indian-woman-freelancer-consult-client-via-video-call-picture-id1300972573?k=20&m=1300972573&s=612x612&w=0&h=Tiwi8Y0q8FBg8nL0i5GL_GslELTVLKkEB2e6m63Jlcg='}}
+            source={{uri: userData ? userData.userImg || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'}}
             style={styles.profileImg}
             />
         </View>
         <View style={styles.textBoxOne}>
-            <Text style={styles.userName}> {userData.userName}</Text>
-            <Text style={styles.email}> {userData.email} </Text>
+            <Text style={styles.userName}> {userData? userData.userName: ""}</Text>
         </View>
         <View style={styles.textBoxTwo}>
+        <Text style={styles.email}> {userData? userData.email: user.email} </Text>
+
+        </View>
+        <View style={styles.textBoxThree}>
             <Text style={styles.date}>Joined {userData? moment(Date(userData.createdAt)).format('MMMM, YYYY'): null}</Text>
         </View>
     </SafeAreaView>
@@ -93,27 +97,41 @@ const styles = StyleSheet.create({
       justifyContent: 'center'
   },
   profileBox: {
-      paddingLeft: 15
+      paddingLeft: 16,
+      top: 96,
+      position: 'absolute',
+
   },
   profileImg: {
-      width: 95,
-      height: 95,
-      borderRadius: 200/2,
+      width: 56,
+      height: 56,
+      borderRadius: 52,
   }, 
   textBoxOne: {
       justifyContent: 'flex-start',
       paddingLeft: 15,
-      paddingTop: 20,
+      top: 160,
+      position: 'absolute'
   },
   userName: {
-      fontSize: 20,
+      fontSize: 16,
   },
   email: {
-      fontSize: 15
+      fontSize: 12,
   },
   textBoxTwo: {
       justifyContent: 'flex-start',
       paddingLeft: 15,
-      paddingTop: 1,
-  }
+      position: 'absolute',
+      top: 194,
+  },
+  textBoxThree: {
+    justifyContent: 'flex-start',
+    paddingLeft: 15,
+    position: 'absolute',
+    top: 216,
+},
+date: {
+    fontSize: 12,
+}
 });
