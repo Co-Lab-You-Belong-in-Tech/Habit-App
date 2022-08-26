@@ -1,3 +1,4 @@
+
 import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity, Keyboard, Pressable} from 'react-native';
 import React from 'react';
 import {useState, useEffect} from 'react';
@@ -56,7 +57,6 @@ const HomeScreen = ({navigation}) => {
   }
 
   //add a goal
-
   const addGoal = () => {
     //check if we have a goal written and its not a blank input
     if(addGoals && addGoals.length > 0) {
@@ -71,12 +71,14 @@ const HomeScreen = ({navigation}) => {
           setAddGoals('');
           //release Keyboard
           Keyboard.dismiss();
+          navigation.navigate('Habit')
         })
         .catch(error => {
           alert(error);
         })
   }
 }
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -146,9 +148,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 5,
     marginHorizontal: 10,
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     marginTop: 20,
+    width: '50%',
+    height: 200,
   },
   innerContainer: {
     alignItems: "center",
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontWeight: "bold",
     fontSize: 18,
-    marginRight: 22,
+    marginRight: 50,
   },
   text: {
     fontSize: 16,
@@ -199,5 +203,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 14,
   },
-  
+  toggleButton: {
+    justifyContent: "center",
+    alignItems: "center",
+   borderRadius: 100,
+   height: 120,
+   width: 120,
+   marginRight: 50,
+   marginTop: 15,
+  },
 });
