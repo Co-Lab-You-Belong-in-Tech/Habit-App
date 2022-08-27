@@ -7,8 +7,6 @@ import { getAuth } from "firebase/auth";
 import * as Svg from "react-native-svg";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
-
-
 function HabitEmptyState({navigation, back}) {
 const auth = getAuth();
 const user = auth.currentUser;
@@ -31,17 +29,18 @@ const [color, setColor] = useState("#0000FF");
 
 
 const [statusOne, setStatusOne] = useState("checked");
-const [colorOne, setColorOne] = useState("#0000FF");
+const [colorOne, setColorOne] = useState("#000000");
+const [colorTwo, setColorTwo] = useState("#000000");
 const [active, setActive] = useState("");
 
-const onButtonToggle = () => {
+const onDeleteToggle = () => {
   setStatus(status === "checked" ? "unchecked" : "checked");
-  setColor(color === "#0000FF" ? "#E0CCB8" : "#0000FF");
+  setColorTwo(colorTwo === "#000000" ? "#FFE2CD" : "#000000");
 };
 
 const onEditToggle = () => {
   setStatusOne(status === "checked" ? "unchecked" : "checked");
-  setColorOne(colorOne === "#0000FF" ? "#E0CCB8" : "#0000FF");
+  setColorOne(colorOne === "#000000" ? "#FFE2CD" : "#000000");
 };
 
 
@@ -89,15 +88,6 @@ const onMinusToggle = () => {
   setFill(fill - 20);
 }
 
-const checkDropdown = () => {
-  return 
-  
-  
-  <IconButton icon="check" size={50} 
-  />;
-  
-
-};
 
  return (
   <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
@@ -110,10 +100,21 @@ const checkDropdown = () => {
           <Appbar.Action icon="menu" color="black" onPress={openMenuOne} />
         }
       >
-        <Menu.Item icon="home" title="Home" />
-        <Menu.Item icon="home" title="Stats" />
-        <Menu.Item icon="home" title="Group" />
-        <Menu.Item icon="home" title="Profile" />
+        <Menu.Item
+          icon="home"
+          title="Home"
+          onPress={() => navigation.navigate("Home")}
+        />
+        <Menu.Item
+          icon="account"
+          title="Profile"
+          onPress={() => navigation.navigate("Profile")}
+        />
+        <Menu.Item
+          icon="login"
+          title="Login"
+          onPress={() => navigation.navigate("Welcome")}
+        />
       </Menu>
       <Appbar.Content title="CoHabit" />
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
@@ -130,64 +131,80 @@ const checkDropdown = () => {
             />
           }
         >
-          <Menu.Item icon="pencil" onPress={onEditToggle} title="Edit" />
+          <Menu.Item
+              icon="pencil"
+              onPress={onEditToggle}
+              color="black"
+              title="Edit"
+            />
+            <Menu.Item
+              icon="delete"
+              onPress={onDeleteToggle}
+              color="black"
+              title="Delete"
+            />
         </Menu>
       ) : null}
-    </Appbar.Header>
-    <FlatList
-      data={goals}
-      numColumns={1}
-      renderItem={({ item }) => (
-        <View>
-          <Pressable style={styles.container}>
-            {/* <IconButton
-            icon='circle'
-            onPress={() => deleteGoal(item)}
-            style={styles.goalIcon}
-          /> */}
-            <View style={styles.innerContainer}>
-              <View style={styles.twoContainer}>
-                <Text style={styles.itemHeading}>
-                  {item.heading[0].toUpperCase() + item.heading.slice(1)}
-                </Text>
-                <ToggleButton
-                  style={styles.editButton}
-                  color={colorOne}
-                  icon="pencil"
-                  value="check"
-                  status={statusOne}
-                  onPress={() => navigation.navigate("Edit", { item })}
+      </Appbar.Header>
+      <FlatList
+        data={goals}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <View>
+            <Pressable style={styles.container}>
+              <View style={styles.innerContainer}>
+                <View style={styles.twoContainer}>
+                  <ToggleButton
+                    icon="delete-circle"
+                    color={colorTwo}
+                    value="check"
+                    size={20}
+                    status={status}
+                    onPress={() => deleteGoal(item)}
+                    style={styles.goalIcon}
+                  />
+                  <Text style={styles.itemHeading}>
+                    {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                  </Text>
+                  <ToggleButton
+                    style={styles.editButton}
+                    color={colorOne}
+                    icon="pencil"
+                    value="check"
+                    size={20}
+                    status={statusOne}
+                    onPress={() => navigation.navigate("Edit", { item })}
+                  />
+                </View>
+                <AnimatedCircularProgress
+                  style={styles.circularProgress}
+                  rotation={0}
+                  size={100}
+                  width={10}
+                  fill={fill}
+                  tintColor="#006052"
+                  onAnimationComplete={() => console.log("onAnimationComplete")}
+                  backgroundColor="#D9D9D9"
                 />
-              </View>
-              <AnimatedCircularProgress
-                style={styles.circularProgress}
-                rotation={0}
-                size={100}
-                width={10}
-                fill={fill}
-                tintColor="#006052"
-                onAnimationComplete={() => console.log("onAnimationComplete")}
-                backgroundColor="#D9D9D9"
-              />
-            </View>
-            <View style={styles.twoContainer}>
-              <ToggleButton
-                style={styles.minusButton}
-                icon="minus"
-                onPress={onMinusToggle}
-                size={30}
-                value="minus"
-                />
-              <ToggleButton
-                style={styles.plusButton}
-                size={30}
-                onPress={onPlusToggle}
-                icon="plus"
-                value="plus"
-              />
-            </View>
+          </View>
+          <View style={styles.twoContainer}>
+            <ToggleButton
+              style={styles.minusButton}
+              icon="minus"
+              onPress={onMinusToggle}
+              size={30}
+              value="minus"
+            />
+            <ToggleButton
+              style={styles.plusButton}
+              size={30}
+              onPress={onPlusToggle}
+              icon="plus"
+              value="plus"
+            />
+          </View>
           </Pressable>
-        </View>
+          </View>
       )}
     />
     <Button
@@ -241,9 +258,8 @@ const styles = StyleSheet.create({
     height: 200,
   },
   goalIcon: {
-    marginTop: 5,
-    fontSize: 20,
-    marginLeft: 14,
+    marginRight: 20,
+    marginLeft: 5,
   },
   toggleButton: {
     justifyContent: "center",
@@ -263,7 +279,7 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontWeight: "bold",
     fontSize: 18,
-    marginLeft: 20,
+    marginLeft: 10,
   },
   twoContainer: {
     flexDirection: "row",
@@ -271,7 +287,8 @@ const styles = StyleSheet.create({
   editButton: {
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 40
+    marginLeft: 20,
+    marginRight: 50,
   },
   menuOneContainer:{
     marginTop: 40,
