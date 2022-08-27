@@ -11,13 +11,16 @@ const firebaseConfig = {
   messagingSenderId: Constants.manifest?.extra?.firebaseMessagingSenderId,
   appId: Constants.manifest?.extra?.firebaseAppId,
 };
-
 let app;
 
 if (firebase.apps.length === 0) {
+  console.log("FIREBASE.APPS LENGTH IS ZERO")
   app = firebase.initializeApp(firebaseConfig)
+  console.log("FIREBASE APP INITIALIZED WITH CONFIG")
 } else {
+  console.log("FIREBASE.APPS LENGTH GREATER THAN 0")
   app = firebase.app();
+  console.log("DEFAULT FIREBASE APP INITILIZED")
 }
 
 export { firebase };
