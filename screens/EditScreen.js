@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import React from "react";
 import { useState} from "react";
-import { firebase } from "../firebase";
+import { firebase } from "../config/firebase";
 import { Appbar, Button } from "react-native-paper";
 
 const EditScreen = ({ navigation, route }) => {

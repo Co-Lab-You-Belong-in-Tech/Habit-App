@@ -2,19 +2,18 @@ import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from 
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
-import { firebase } from '../firebase';
+import { firebase } from '../config/firebase';
 // import { useNavigation } from '@react-navigation/native';
-import { Appbar, Button, ToggleButton, IconButton, Switch} from "react-native-paper";
-import SelectDropdown from "react-native-select-dropdown";
+import { Appbar, Button, ToggleButton, IconButton} from "react-native-paper";
+import { useAuthentication } from '../hook/useAuthentication';
 
 const HomeScreen = ({navigation}) => {
   const [goals, setGoals] = useState([]);
-  const goalRef = firebase.firestore().collection('goals');
+  const user = useAuthentication();
+  const uid = user.uid;
+  const goalRef =  firebase.firestore().collection('goals');
   const [addGoals, setAddGoals] = useState('');
   const [status, setStatus] = useState("checked");
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
-
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   const onButtonToggle = (value) => {
     setStatus(status === "checked" ? "unchecked" : "checked");
@@ -39,14 +38,16 @@ const HomeScreen = ({navigation}) => {
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
       const data = {
         heading: addGoals,
-        createdAt: timestamp
-      };
-      goalRef
+        createdAt: timestamp,
+        userId: uid,
+      }
+     goalRef
         .add(data)
         .then(() => {
           setAddGoals('');
           //release Keyboard
           Keyboard.dismiss();
+          navigation.navigate('Habit')
         })
         .catch(error => {
           alert(error);
