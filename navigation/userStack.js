@@ -3,13 +3,13 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from "@react-navigation/native";
-import HabitEmptyState from '../Screens/HabitEmptyState';
-import EditScreen from '../Screens/EditScreen';
-import DetailScreen from '../Screens/DetailScreen';
-import HomeScreen from '../Screens/HomeScreen';
+import HabitEmptyState from '../screens/HabitEmptyState';
+import EditScreen from '../screens/EditScreen';
+import DetailScreen from '../screens/DetailScreen';
+import HomeScreen from '../screens/HomeScreen';
 import { Provider as PaperProvider } from "react-native-paper";
-import ProfileScreen from '../Screens/ProfileScreen';
-import EditProfileScreen from '../Screens/EditProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 
 

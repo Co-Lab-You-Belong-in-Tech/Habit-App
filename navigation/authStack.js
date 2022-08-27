@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../Screens/LoginScreen';
-import RegisterScreen from '../Screens/RegisterScreen';
-import WelcomeScreen from '../Screens/WelcomeScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
 import { FontAwesome5} from '@expo/vector-icons'; 
 import {StyleSheet} from 'react-native';
 
