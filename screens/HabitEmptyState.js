@@ -21,7 +21,6 @@ import {
 import { firebase } from "../firebase";
 import * as Svg from "react-native-svg";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-// import { CircularProgress } from "react-native-circular-gradient-progress";
 
 function HabitEmptyState({navigation, back}) {
 
@@ -42,17 +41,18 @@ const [color, setColor] = useState("#0000FF");
 
 
 const [statusOne, setStatusOne] = useState("checked");
-const [colorOne, setColorOne] = useState("#0000FF");
+const [colorOne, setColorOne] = useState("#000000");
+const [colorTwo, setColorTwo] = useState("#000000");
 const [active, setActive] = useState("");
 
-const onButtonToggle = () => {
+const onDeleteToggle = () => {
   setStatus(status === "checked" ? "unchecked" : "checked");
-  setColor(color === "#0000FF" ? "#FFE2CD" : "#0000FF");
+  setColorTwo(colorTwo === "#000000" ? "#FFE2CD" : "#000000");
 };
 
 const onEditToggle = () => {
   setStatusOne(status === "checked" ? "unchecked" : "checked");
-  setColorOne(colorOne === "#0000FF" ? "#FFE2CD" : "#0000FF");
+  setColorOne(colorOne === "#000000" ? "#FFE2CD" : "#000000");
 };
 
 
@@ -95,17 +95,6 @@ const [fill, setFill] = useState(0);
      setFill(fill - 20);
    }
 
-   const checkDropdown = () => {
-     return 
-     
-     
-     <IconButton icon="check" size={50} 
-     />;
-     
-
-   };
-
-
   return (
     <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
       <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
@@ -117,10 +106,21 @@ const [fill, setFill] = useState(0);
             <Appbar.Action icon="menu" color="black" onPress={openMenuOne} />
           }
         >
-          <Menu.Item icon="home" title="Home" />
-          <Menu.Item icon="home" title="Stats" />
-          <Menu.Item icon="home" title="Group" />
-          <Menu.Item icon="home" title="Profile" />
+          <Menu.Item
+            icon="home"
+            title="Home"
+            onPress={() => navigation.navigate("Home")}
+          />
+          <Menu.Item
+            icon="account"
+            title="Profile"
+            onPress={() => navigation.navigate("Profile")}
+          />
+          <Menu.Item
+            icon="login"
+            title="Login"
+            onPress={() => navigation.navigate("Welcome")}
+          />
         </Menu>
         <Appbar.Content title="CoHabit" />
         {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
@@ -137,7 +137,18 @@ const [fill, setFill] = useState(0);
               />
             }
           >
-            <Menu.Item icon="pencil" onPress={onEditToggle} title="Edit" />
+            <Menu.Item
+              icon="pencil"
+              onPress={onEditToggle}
+              color="black"
+              title="Edit"
+            />
+            <Menu.Item
+              icon="delete"
+              onPress={onDeleteToggle}
+              color="black"
+              title="Delete"
+            />
           </Menu>
         ) : null}
       </Appbar.Header>
@@ -147,13 +158,17 @@ const [fill, setFill] = useState(0);
         renderItem={({ item }) => (
           <View>
             <Pressable style={styles.container}>
-              {/* <IconButton
-              icon='circle'
-              onPress={() => deleteGoal(item)}
-              style={styles.goalIcon}
-            /> */}
               <View style={styles.innerContainer}>
                 <View style={styles.twoContainer}>
+                  <ToggleButton
+                    icon="delete-circle"
+                    color={colorTwo}
+                    value="check"
+                    size={20}
+                    status={status}
+                    onPress={() => deleteGoal(item)}
+                    style={styles.goalIcon}
+                  />
                   <Text style={styles.itemHeading}>
                     {item.heading[0].toUpperCase() + item.heading.slice(1)}
                   </Text>
@@ -162,6 +177,7 @@ const [fill, setFill] = useState(0);
                     color={colorOne}
                     icon="pencil"
                     value="check"
+                    size={20}
                     status={statusOne}
                     onPress={() => navigation.navigate("Edit", { item })}
                   />
@@ -184,7 +200,7 @@ const [fill, setFill] = useState(0);
                   onPress={onMinusToggle}
                   size={30}
                   value="minus"
-                  />
+                />
                 <ToggleButton
                   style={styles.plusButton}
                   size={30}
@@ -248,9 +264,8 @@ const styles = StyleSheet.create({
     height: 200,
   },
   goalIcon: {
-    marginTop: 5,
-    fontSize: 20,
-    marginLeft: 14,
+    marginRight: 20,
+    marginLeft: 5,
   },
   toggleButton: {
     justifyContent: "center",
@@ -270,7 +285,7 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontWeight: "bold",
     fontSize: 18,
-    marginLeft: 20,
+    marginLeft: 10,
   },
   twoContainer: {
     flexDirection: "row",
@@ -278,7 +293,8 @@ const styles = StyleSheet.create({
   editButton: {
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 40
+    marginLeft: 20,
+    marginRight: 50,
   },
   menuOneContainer:{
     marginTop: 40,
