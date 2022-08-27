@@ -5,7 +5,7 @@ import { firebase } from "../config/firebase";
 import { Appbar, Button } from "react-native-paper";
 
 const EditScreen = ({ navigation, route }) => {
-  const goalRef = firebase.firestore().collection("goals");
+  const goalRef = firebase.firestore().collection("goals")
   const [textHeading, onChangeHeadingText] = useState(route.params.item.name);
 
    const updateGoal = () => {

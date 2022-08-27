@@ -33,10 +33,10 @@ export default function UserStack() {
 
       }}
         >
+          <Stack.Screen name="Habit" options={{headerShown: false}} component={HabitEmptyState} />
           <Stack.Screen name="Profile" options={{title: '', headerShown: false} } component={ProfileScreen} />
           <Stack.Screen name="EditProfile" options={{headerShown: false} } component={EditProfileScreen} />
-          <Stack.Screen name="Habit" options={{title: ''} } component={HabitEmptyState} />
-          <Stack.Screen name="Home" options={{title: ''} } component={HomeScreen} />
+          <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen} />
           <Stack.Screen name="Edit" options={{title: ''} } component={EditScreen} />
           <Stack.Screen name="Detail" options={{title: ''} } component={DetailScreen} />
         </Stack.Navigator>
