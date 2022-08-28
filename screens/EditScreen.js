@@ -7,9 +7,6 @@ import { Appbar, Button } from "react-native-paper";
 const EditScreen = ( {navigation, route}, props) => {
   const goalRef = firebase.firestore().collection("goals")
   const [textHeading, onChangeHeadingText] = useState(route.params.item.heading);
-  console.log("routeshow",route.params.item);
-  console.log("showprops",props.item)
-
    const updateGoal = () => {
      if (textHeading && textHeading.length > 0) {
        goalRef
@@ -28,30 +25,33 @@ const EditScreen = ( {navigation, route}, props) => {
 
 
   return (
-    <View style={{ flex: 1 }}>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate("Habit")} />
-        <Appbar.Content title="Edit your habit" />
-      </Appbar.Header>
-      <View style={styles.formContainer}>
-        <Text style={styles.text}>Name your habit</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeHeadingText}
-          value={textHeading}
-        />
-      </View>
-      <Button
-        style={styles.button}
-        mode="contained"
-        onPress={() => {
-          updateGoal();
-        }}
-        uppercase={false}
-      >
-        Save
-      </Button>
+    <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+    <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
+      <Appbar.BackAction onPress={() => navigation.navigate("Habit")} />
+      <Appbar.Content title="Edit your habit" />
+    </Appbar.Header>
+    <View style={styles.formContainer}>
+      <Text style={styles.text}>Name your habit</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeHeadingText}
+        value={textHeading}
+      />
     </View>
+    <Button
+      style={styles.button}
+      mode="contained"
+      
+   
+      onPress={() => {
+        
+        updateGoal();
+      }}
+      uppercase={false}
+    >
+      Save
+    </Button>
+  </View>
   );
 };
 
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignContent: "center",
+    backgroundColor: "#006052",
   },
   buttonText: {
     color: "white",

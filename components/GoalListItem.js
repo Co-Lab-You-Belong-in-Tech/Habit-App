@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import { useAuthentication } from '../hook/useAuthentication';
 import { Button, Appbar, Menu, MenuItem, Drawer, ToggleButton, IconButton, TouchableOpacity} from "react-native-paper";
 import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from "react-native";
@@ -24,10 +24,13 @@ const item = props.item
 console.log("goallist----", item);
 
 
-const editNavigation = props.editNavigation;
-const updateGoal = props.updateGoal;
+// const editNavigation = props.editNavigation;
+// const updateGoal = props.updateGoal;
 
     const [fill, setFill] = useState(0);
+    const [addFinishedCount, setAddFinishedCount] = useState(0);
+    // const [fillPercent, setFillPercent] = useState(0);
+    const prevAddFinihedCountRef = useRef();
     const [colorOne, setColorOne] = useState("#0000FF");
     const [status, setStatus] = useState("checked");
     const [statusOne, setStatusOne] = useState("checked");
@@ -45,10 +48,17 @@ const updateGoal = props.updateGoal;
 
       const goalRef = firebase.firestore().collection("goals");
 
+// console.log("targetCount",item.targetCount);
+// console.log("addcount", addFinishedCount);
+// console.log(fillPercent + "%");
 
-     
+    //  const handleFill =()=>{
+    //   let fillPercentage = ((addFinishedCount + 1) / item.targetCount) * 100;
+    //   setFillPercent(fillPercentage)
+    //     console.log(fillPercent + "%");
+    //  }
 
-
+    
 
 
       const deleteGoal = (item) => {
@@ -64,19 +74,53 @@ const updateGoal = props.updateGoal;
             alert(error);
           });
       };
+
+      const handleFinishedCount = (item)=>{
+        if (addFinishedCount <= item.targetCount  ) {
+          goalRef
+            .doc(item.id)
+            .update({
+              finishedCount: addFinishedCount,
+            })
+            .then(() => {
+              // alert(`Updated Your ${item.heading} Progress`)
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
+          }
+        }
+
+
+        useEffect(() => {
+       
+         handleFinishedCount(item)
+          prevAddFinihedCountRef.current = addFinishedCount;
+        }, [addFinishedCount]);
       
 
     const onPlusToggle = () => {
+       if(addFinishedCount < item.targetCount){
+        setFill(fill + 1);
+        setAddFinishedCount(addFinishedCount + 1)
        
-          setFill(fill + 1);
+        
+       }
+          
       
        
         }
       
         const onMinusToggle = () => {
+          if(addFinishedCount > 0){
+            setFill(fill - 1);
+            setAddFinishedCount(addFinishedCount - 1)
+           
+          
+           }
          
          
-          setFill(fill - 1);
+        
        
         }
     
@@ -84,9 +128,9 @@ const updateGoal = props.updateGoal;
 
     return (
         <View key={props.id} style={styles.container}>
-            <View style={styles.innerContainer}>
-              <View style={styles.twoContainer}>
-                  <ToggleButton
+
+          <View style={styles.innerContainer1}>
+            <ToggleButton
                     icon="delete-circle"
                     color={colorTwo}
                     value="check"
@@ -95,10 +139,12 @@ const updateGoal = props.updateGoal;
                     onPress={() => deleteGoal(item)}
                     style={styles.goalIcon}
                   />
-                
-                 <Text style={styles.itemHeading}>
+             
+                   <Text style={styles.itemHeading}>
                   {item.heading[0].toUpperCase() + item.heading.slice(1)}
-                </Text>
+                  </Text>
+            
+                
                 <ToggleButton
                   style={styles.editButton}
                   color={colorOne}
@@ -107,26 +153,27 @@ const updateGoal = props.updateGoal;
                   status={statusOne}
                   onPress={() => navigation.navigate("Edit", {item}) }
                 />
-              </View>
-              <View style={styles.circularProgress}>
-                    <CircularProgress
+          </View>
+          <View style={styles.innerContainer2}>
+              <CircularProgress style={styles.circularProgress}
                     // rotation={0}
                     size={100}
                     valuePrefix={item.targetCount}
                     valueSuffix={item.unit}
                     activeStrokeWidth={10}
-                    value={fill}
+                    value={addFinishedCount}
+                    maxValue={item.targetCount}
+                    inActiveStrokeColor={'red'}
                     radius={50}
+                    inActiveStrokeOpacity={0.5}
                     
                     progressValueStyle={{ fontSize: 12, color: 'black' }}
                     tintColor="#006052"
                     onAnimationComplete={() => console.log("onAnimationComplete")}
                     backgroundColor="#D9D9D9"
-                    />
-              </View>
-              
-            </View>
-            <View style={styles.twoContainer}>
+                  />
+          </View>
+          <View style={styles.innerContainer3}>
               <ToggleButton
                 style={styles.minusButton}
                 icon="minus"
@@ -141,97 +188,85 @@ const updateGoal = props.updateGoal;
                 icon="plus"
                 value="plus"
               />
-            </View>
+          </View>
         </View>
-    )
-
-}
+        )
+      }
 
 export default GoalListItem;
 
 const styles = StyleSheet.create({
-    button: {
-      backgroundColor: '#006052',
-      height: 50,
-      marginLeft: 20,
-      marginRight: 20,
-      marginBottom: 20,
-      borderRadius: 10,
-      justifyContent: "center",
-      alignContent: "center",
-    },
-    circularProgress: {
-      marginRight: 40,
-    },
-    circularFrequencyText: {
-
-    },
-    twoContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    minusButton: {
-      marginRight: 90,
-      // paddingBottom: 25,
-    },
+  container: {
+    backgroundColor: "#FFE2CD",
+    // padding: 2,
+    borderRadius: 8,
+    margin: 5,
+    marginHorizontal: 10,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: 'center',
+    marginTop: 20,
+    width: 156,
+    height: 168,
+  },
+  innerContainer1: {
+    position: 'absolute',
+    alignItems: "center",
+   
+    flexDirection: 'row',
+    height: 30,
+    marginTop: 6,
+    marginBottom: 10,
+    left: 0,
+    top: 0,
+  },
+  innerContainer2: {
+    position: 'absolute',
+    alignItems: "center",
+    
+   
+    left: 27,
+    top: 40,
+    height: 100,
+  },
+  circularProgress: {
+    width: 100,
+    height: 100,
+   
+  },
+  innerContainer3: {
+    alignItems: "center",
+   
+    flexDirection: 'row',
+    position: 'absolute',
+    left: 0,
+    top: 140,
+    height: 27,
+    
   
-    container: {
-      backgroundColor: "#FFE2CD",
-      padding: 15,
-      borderRadius: 15,
-      margin: 5,
-      marginHorizontal: 10,
-      flexDirection: "column",
-      alignItems: "center",
-      marginTop: 20,
-      width: "50%",
-      height: 200,
-    },
-    goalIcon: {
-      marginRight: 20,
-      marginLeft: 5,
-      // marginTop: 5,
-      // fontSize: 20,
-      // marginLeft: 14,
-    },
-    toggleButton: {
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: 80,
-      borderWidth: 5,
-      borderTopLeftRadius: 80,
-      borderTopRightRadius: 80,
-      height: 100,
-      width: 100,
-      marginRight: 50,
-    },
-    innerContainer: {
-      alignItems: "center",
-      marginLeft: 45,
-    },
-    itemHeading: {
-      fontWeight: "bold",
-      fontSize: 18,
-      marginLeft: 10,
-    },
-    twoContainer: {
-      flexDirection: "row",
-    
-    },
-    editButton: {
-      alignItems: "center",
-      justifyContent: "center",
-      marginLeft: 20,
-      marginRight: 50,
-    },
-    menuOneContainer:{
-      marginTop: 40,
-      width: 300,
-      height: 800,
-    },
-    doneButton: {
-      marginTop: 40,
-    },
-    
+  },
+  deleteIcon:{
+
+  },
+
+  itemHeading:{
+    width: 60,
+    height: 16,
+    marginLeft: 5,
+    marginRight: 5,
+   textAlign: 'center',
+   fontSize: 12,
+  },
+
+  minusButton: {
+    marginRight:70,
+   marginLeft: 2,
+   
+  },
+  plusButton: {
+  
+  //  marginLeft: 5,
+   
+  },
+   
   });

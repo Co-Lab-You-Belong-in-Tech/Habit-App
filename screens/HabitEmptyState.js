@@ -131,7 +131,7 @@ function profileNav(){
  
 
   return(
-    <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+    <View style={{ backgroundColor:  "#FFF1E7", flex: 1 }}>
     <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
       <Menu
         style={styles.menuOneContainer}
@@ -189,7 +189,7 @@ function profileNav(){
     </Appbar.Header>
     <FlatList
       data={goals}
-      numColumns={1}
+      numColumns={2}
       renderItem={({ item }) => (
         <GoalListItem item={item} editNavigation={navigateToEditPage} />
       )}
@@ -245,11 +245,7 @@ const styles = StyleSheet.create({
     width: "50%",
     height: 200,
   },
-  goalIcon: {
-    marginTop: 5,
-    fontSize: 20,
-    marginLeft: 14,
-  },
+
   toggleButton: {
     justifyContent: "center",
     alignItems: "center",
@@ -265,13 +261,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 45,
   },
-  itemHeading: {
-    fontWeight: "bold",
-    fontSize: 18,
-    marginLeft: 20,
-  },
+  // itemHeading: {
+  //   fontWeight: "bold",
+  //   fontSize: 18,
+  //   marginLeft: 20,
+  // },
   twoContainer: {
     flexDirection: "row",
+    alignItems: 'center'
   },
   editButton: {
     alignItems: "center",
