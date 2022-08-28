@@ -19,7 +19,7 @@ const HabitEmptyState = ({navigation, back}) => {
 
   
 
-  const [fill, setFill] = useState(0);
+  // const [fill, setFill] = useState(0);
   
   const [plusValue, setPlusValue] = useState(0);
   const [minusValue, setMinusValue] = useState(0);
@@ -39,8 +39,15 @@ const HabitEmptyState = ({navigation, back}) => {
   const [color, setColor] = useState("#0000FF");
   const [status, setStatus] = useState("checked");
   const [colorOne, setColorOne] = useState("#0000FF");
+  const [colorTwo, setColorTwo] = useState("#000000");
 
   const [active, setActive] = useState("");
+  
+
+  const onDeleteToggle = () => {
+    setStatus(status === "checked" ? "unchecked" : "checked");
+    setColorTwo(colorTwo === "#000000" ? "#FFE2CD" : "#000000");
+  };
 
   const onButtonToggle = (item) => {
    
@@ -59,26 +66,28 @@ function navigateToEditPage(item){
   navigation.navigate("Edit", {item})
 }
 
-  const ItemSeparatorView = () => {
-    return (
-      //Item Separator
-      <View
-        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
-      />
-    );
-  };
 
-  const getItem = (item) => {
-    //Function for click on an item
-    setSelectedId(item)
-    alert('Id : ' + item.id + ' count : ' + item.targetCount);
-  };
+function homeNav(){
+  closeMenuOne()
+  navigation.navigate("Home");
+}
+function profileNav(){
+  closeMenuOne()
+  navigation.navigate("Profile");
+}
+
+
+  // const getItem = (item) => {
+  //   //Function for click on an item
+  //   setSelectedId(item)
+  //   alert('Id : ' + item.id + ' count : ' + item.targetCount);
+  // };
   
-  const getLog = (item) => {
-    setFill(fill - 20);
-    //Function for click on an item
-    // alert('LogMe : ' + item.id + ' Name : ' + item.heading);
-  };
+  // const getLog = (item) => {
+  //   setFill(fill - 20);
+  //   //Function for click on an item
+  //   // alert('LogMe : ' + item.id + ' Name : ' + item.heading);
+  // };
 
   //  circle animation/progress
 
@@ -86,19 +95,6 @@ function navigateToEditPage(item){
 
  
 
-  const deleteGoal = (goals) => {
-   goalRef
-     .doc(goals.id)
-     .delete()
-     .then(() => {
-       //show a successful alert
-       alert("Deleted successfully");
-     })
-     .catch((error) => {
-       alert(error);
-     });
- };
- 
 
 
   const checkDropdown = () => {
@@ -145,10 +141,21 @@ function navigateToEditPage(item){
           <Appbar.Action icon="menu" color="black" onPress={openMenuOne} />
         }
       >
-        <Menu.Item icon="home" title="Home" />
-        <Menu.Item icon="home" title="Stats" />
-        <Menu.Item icon="home" title="Group" />
-        <Menu.Item icon="home" title="Profile" />
+        <Menu.Item
+            icon="home"
+            title="Home"
+            onPress={() => homeNav()}
+          />
+          <Menu.Item
+            icon="account"
+            title="Profile"
+            onPress={() => profileNav()}
+          />
+          {/* <Menu.Item
+            icon="login"
+            title="Login"
+            onPress={() => navigation.navigate("Welcome")}
+          /> */}
       </Menu>
       <Appbar.Content title="CoHabit" />
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
@@ -165,9 +172,20 @@ function navigateToEditPage(item){
             />
           }
         >
-          <Menu.Item icon="pencil" onPress={onEditToggle} title="Edit" />
-        </Menu>
-      ) : null}
+          <Menu.Item
+              icon="pencil"
+              onPress={onEditToggle}
+              color="black"
+              title="Edit"
+            />
+            <Menu.Item
+              icon="delete"
+              onPress={onDeleteToggle}
+              color="black"
+              title="Delete"
+            />
+          </Menu>
+        ) : null}
     </Appbar.Header>
     <FlatList
       data={goals}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useAuthentication } from '../hook/useAuthentication';
 import { Button, Appbar, Menu, MenuItem, Drawer, ToggleButton, IconButton, TouchableOpacity} from "react-native-paper";
 import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from "react-native";
@@ -7,22 +7,64 @@ import { getAuth } from "firebase/auth";
 import * as Svg from "react-native-svg";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import CircularProgress from 'react-native-circular-progress-indicator';
+import { NavigationContainer, NavigationContext } from '@react-navigation/native';
 
 
-const GoalListItem =(props, navigation)=>{
+const GoalListItem =(props)=>{
+  const navigation = useContext(NavigationContext);
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const uid = user.uid;
+  console.log(uid);
+
+
 const item = props.item
-const editNavigation = props.editNavigation
+
+console.log("goallist----", item);
+
+
+const editNavigation = props.editNavigation;
+const updateGoal = props.updateGoal;
 
     const [fill, setFill] = useState(0);
     const [colorOne, setColorOne] = useState("#0000FF");
     const [status, setStatus] = useState("checked");
     const [statusOne, setStatusOne] = useState("checked");
+    const [colorTwo, setColorTwo] = useState("#000000");
     
     const onEditToggle = () => {
         setStatusOne(status === "checked" ? "unchecked" : "checked");
         setColorOne(colorOne === "#0000FF" ? "#FFE2CD" : "#0000FF");
       };
-  
+
+      const onDeleteToggle = () => {
+        setStatus(status === "checked" ? "unchecked" : "checked");
+        setColorTwo(colorTwo === "#000000" ? "#FFE2CD" : "#000000");
+      };
+
+      const goalRef = firebase.firestore().collection("goals");
+
+
+     
+
+
+
+
+      const deleteGoal = (item) => {
+        
+        goalRef
+          .doc(item.id)
+          .delete()
+          .then(() => {
+            //show a successful alert
+            alert("Deleted successfully");
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      };
+      
 
     const onPlusToggle = () => {
        
@@ -42,10 +84,19 @@ const editNavigation = props.editNavigation
 
     return (
         <View key={props.id} style={styles.container}>
-       
             <View style={styles.innerContainer}>
               <View style={styles.twoContainer}>
-                <Text style={styles.itemHeading}>
+                  <ToggleButton
+                    icon="delete-circle"
+                    color={colorTwo}
+                    value="check"
+                    size={20}
+                    status={status}
+                    onPress={() => deleteGoal(item)}
+                    style={styles.goalIcon}
+                  />
+                
+                 <Text style={styles.itemHeading}>
                   {item.heading[0].toUpperCase() + item.heading.slice(1)}
                 </Text>
                 <ToggleButton
@@ -54,7 +105,7 @@ const editNavigation = props.editNavigation
                   icon="pencil"
                   value="check"
                   status={statusOne}
-                  onPress={() => editNavigation(navigation, item) }
+                  onPress={() => navigation.navigate("Edit", {item}) }
                 />
               </View>
               <View style={styles.circularProgress}>
@@ -114,8 +165,6 @@ const styles = StyleSheet.create({
     },
     circularFrequencyText: {
 
-
-
     },
     twoContainer: {
       flexDirection: "row",
@@ -124,7 +173,7 @@ const styles = StyleSheet.create({
     },
     minusButton: {
       marginRight: 90,
-      paddingBottom: 25,
+      // paddingBottom: 25,
     },
   
     container: {
@@ -140,9 +189,11 @@ const styles = StyleSheet.create({
       height: 200,
     },
     goalIcon: {
-      marginTop: 5,
-      fontSize: 20,
-      marginLeft: 14,
+      marginRight: 20,
+      marginLeft: 5,
+      // marginTop: 5,
+      // fontSize: 20,
+      // marginLeft: 14,
     },
     toggleButton: {
       justifyContent: "center",
@@ -162,7 +213,7 @@ const styles = StyleSheet.create({
     itemHeading: {
       fontWeight: "bold",
       fontSize: 18,
-      marginLeft: 20,
+      marginLeft: 10,
     },
     twoContainer: {
       flexDirection: "row",
@@ -171,8 +222,8 @@ const styles = StyleSheet.create({
     editButton: {
       alignItems: "center",
       justifyContent: "center",
-      marginLeft: 40,
-      marginEnd: 5,
+      marginLeft: 20,
+      marginRight: 50,
     },
     menuOneContainer:{
       marginTop: 40,
@@ -181,10 +232,6 @@ const styles = StyleSheet.create({
     },
     doneButton: {
       marginTop: 40,
-    },
-    plusButton: {
-        paddingBottom:20,
-
     },
     
   });

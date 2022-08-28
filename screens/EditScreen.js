@@ -4,9 +4,11 @@ import { useState} from "react";
 import { firebase } from "../config/firebase";
 import { Appbar, Button } from "react-native-paper";
 
-const EditScreen = ({ navigation, route }) => {
+const EditScreen = ( {navigation, route}, props) => {
   const goalRef = firebase.firestore().collection("goals")
-  const [textHeading, onChangeHeadingText] = useState(route.params.item.name);
+  const [textHeading, onChangeHeadingText] = useState(route.params.item.heading);
+  console.log("routeshow",route.params.item);
+  console.log("showprops",props.item)
 
    const updateGoal = () => {
      if (textHeading && textHeading.length > 0) {
