@@ -27,7 +27,7 @@ export default function AuthStack() {
           // headerBackImage: ()=>(<FontAwesome5 name="arrow-left"  size={24} color="black" />),
           // headerLeftContainerStyle: styles.headerBackImageStyle,
       }}>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen name="Welcome"  options={{headerShown: false}}component={WelcomeScreen} />
         <Stack.Screen name="Sign In" options={{title: ''} } component={LoginScreen} />
         <Stack.Screen name="Sign Up" options={{title: ''} } component={RegisterScreen} />
       </Stack.Navigator>
