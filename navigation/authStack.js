@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../Screens/LoginScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
 import WelcomeScreen from '../Screens/WelcomeScreen';
-import { FontAwesome5} from '@expo/vector-icons'; 
 import {StyleSheet} from 'react-native';
 
 const Stack = createStackNavigator();

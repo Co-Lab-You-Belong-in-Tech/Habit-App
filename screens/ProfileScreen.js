@@ -5,17 +5,37 @@ import { getAuth, signOut } from 'firebase/auth';
 import { Text } from 'react-native-paper';
 import { firebase } from '../config/firebase';
 import { useEffect, useState } from 'react';
-import { Appbar, Button, ToggleButton, IconButton} from "react-native-paper";
+import { Appbar, Button, ToggleButton, IconButton, Menu} from "react-native-paper";
 import moment from 'moment';
+
+const auth = getAuth();
 
 
 export default function ProfileScreen({navigation}) {
   const auth = getAuth();
   const user = auth.currentUser;
   const uid = user.uid;
+// const user = useAuthentication();
   console.log(uid);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState('')
+  const [userData, setUserData] = useState('');
+
+  const [visible, setVisible] = useState(false);
+  const [visibleOne, setVisibleOne] = useState(false);
+  const openMenu = () => setVisible(true);
+  const openMenuOne = () => setVisibleOne(true);
+  const closeMenu = () => setVisible(false);
+  const closeMenuOne = () => setVisibleOne(false);
+
+  function homeNav(){
+    closeMenuOne()
+    navigation.navigate("Home");
+  }
+
+  function habitNav(){
+    closeMenuOne()
+    navigation.navigate("Habit");
+  }
 
   async function getUserInfo(){
     let doc = await firebase
@@ -43,8 +63,28 @@ export default function ProfileScreen({navigation}) {
   
   return (
     <SafeAreaView style={styles.container}>
+      
         <Appbar.Header style={styles.header}>
-            <Appbar.Action icon="menu" color="black" onPress={() => console.log("Pressed")}/> 
+        <Menu
+            style={styles.menuOneContainer}
+            visible={visibleOne}
+            onDismiss={closeMenuOne}
+            anchor={
+          <Appbar.Action icon="menu" color="black" onPress={openMenuOne} />
+        }
+      >
+        <Menu.Item
+            icon="home"
+            title="Home"
+            onPress={() => homeNav()}
+          />
+          <Menu.Item
+            icon="login"
+            title="Habit"
+            onPress={() => habitNav()}
+          />
+      </Menu>
+            
             <Appbar.Action icon="account" />
             <Appbar.Content style={{ fontSize: 15 }} title="Profile" />
             <Appbar.Action
@@ -70,6 +110,13 @@ export default function ProfileScreen({navigation}) {
         </View>
         <View style={styles.textBoxThree}>
             <Text style={styles.date}>Joined {userData? moment(Date(userData.createdAt)).format('MMMM, YYYY'): null}</Text>
+        </View>
+        <View style={styles.textBoxFour}>
+        <Button style={styles.button} icon="logout" mode="contained" onPress={() => signOut(auth)}>
+    Logout
+  </Button>
+
+            
         </View>
     </SafeAreaView>
 );
@@ -133,5 +180,22 @@ const styles = StyleSheet.create({
 },
 date: {
     fontSize: 12,
-}
+},
+button: {
+    backgroundColor: "#006052",
+    height: 50,
+    marginTop: 100,
+    
+    marginRight: 20,
+    marginBottom: 20,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  textBoxFour: {
+    justifyContent: 'flex-start',
+    paddingLeft: 15,
+    position: 'absolute',
+    top:250,
+},
 });
