@@ -28,7 +28,7 @@ console.log("goallist----", item);
 // const updateGoal = props.updateGoal;
 
     const [fill, setFill] = useState(0);
-    const [addFinishedCount, setAddFinishedCount] = useState(0);
+    const [addFinishedCount, setAddFinishedCount] = useState(item.finishedCount);
     // const [fillPercent, setFillPercent] = useState(0);
     const prevAddFinihedCountRef = useRef();
     const [colorOne, setColorOne] = useState("#0000FF");
