@@ -187,7 +187,7 @@ function profileNav(){
           </Menu>
         ) : null}
     </Appbar.Header>
-    <FlatList
+    <FlatList style={{alignSelf: 'center'}}
       data={goals}
       numColumns={2}
       renderItem={({ item }) => (
@@ -235,10 +235,10 @@ const styles = StyleSheet.create({
 
   container: {
     backgroundColor: "#FFE2CD",
-    padding: 15,
+    // padding: 15,
     borderRadius: 15,
-    margin: 5,
-    marginHorizontal: 10,
+    // margin: 5,
+    // marginHorizontal: 10,
     flexDirection: "column",
     alignItems: "center",
     marginTop: 20,
