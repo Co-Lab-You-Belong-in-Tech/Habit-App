@@ -178,8 +178,8 @@ const [fontsLoaded, setFontsLoaded] = useState(false);
       }
   
   return (
-    <SafeAreaView style={styles.container}>
-        <Appbar.Header style={styles.header}>
+    <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+        <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
             <Appbar.Action icon="close" color="black" onPress={() => navigation.navigate('Profile')}/> 
             <Appbar.Action icon="account" />
             <Appbar.Content style={{ fontSize: 15 }} title="Edit Profile" />
@@ -223,7 +223,7 @@ const [fontsLoaded, setFontsLoaded] = useState(false);
         <Text style={styles.panelButtonTitle}>Cancel</Text>
       </TouchableOpacity>
       
-    </View>
+      </View>
                 
               </View>
             </View>
@@ -233,7 +233,7 @@ const [fontsLoaded, setFontsLoaded] = useState(false);
         </View>
         
  
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', alignSelf: 'flex-start', paddingLeft: 16, width: 56, height: 56,}}>
           <TouchableOpacity onPress={toggleBottomNavigationView}>
             <View
               style={{
@@ -249,10 +249,10 @@ const [fontsLoaded, setFontsLoaded] = useState(false);
                       'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
                     : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
                 }}
-                style={{height: 100, width: 100}}
-                imageStyle={{width: 95,
-                  height: 95,
-                  borderRadius: 200/2,}}>
+                style={{height: 56, width: 56}}
+                imageStyle={{width: 56,
+                  height: 56,
+                  borderRadius: 52,}}>
                 <View
                   style={{
                     flex: 1,
@@ -276,14 +276,8 @@ const [fontsLoaded, setFontsLoaded] = useState(false);
               </ImageBackground>
             </View>
           </TouchableOpacity>
-          </View>
-        {/* <View style={styles.textBoxOne}>
-            <Text style={styles.userName}> {userData.userName}</Text>
-            <Text style={styles.email}> {userData.email} </Text>
-        </View> */}
-        {/* edit section */}
-        <View>
-        <View style={styles.editUsernameContainer}>
+        </View>
+          <View style={styles.editUsernameContainer}>
             <Text style={styles.labelText}>Username</Text>
           <TextInput
              autoCorrect={false}
@@ -301,11 +295,7 @@ const [fontsLoaded, setFontsLoaded] = useState(false);
                  style={styles.inputText}
             />
          </View>
-
-        </View>
-        
-       
-    </SafeAreaView>
+    </View>
     );
  }
 
@@ -362,11 +352,11 @@ const styles = StyleSheet.create({
       paddingTop: 1,
   },
   editUsernameContainer: {
+  
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
     marginTop: 16,
-    
     position: 'absolute',
     width: 360,
     height: 49,
@@ -377,28 +367,26 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
   },
   labelText: {
-    fontFamily: 'Poppins_Medium',
+    fontFamily: 'Poppins_Bold',
     fontSize: 16,
     lineHeight: 22.4,
     color: '#002722',
     flexGrow: 0,
   },
   editEmailContainer: {
+   
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-   
-    
+    marginTop: 16,
     position: 'absolute',
-   width: 'auto',
+    width: 360,
     height: 49,
     left: 0,
     top: 217,
     borderBottomColor: '#BDBCBC',
     borderBottomWidth: .5,
     borderStyle: 'solid',
-   
-    
   },
   labelText: {
     fontFamily: 'Poppins_Medium',
@@ -407,6 +395,7 @@ const styles = StyleSheet.create({
     lineHeight: 22.4,
     color: '#002722',
     flexGrow: 0,
+    
   },
   inputText: {
     width: 135,
@@ -416,6 +405,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: '#414141',
     flexGrow: 0,
+    marginTop: 6,
 
   },
   commandButton: {

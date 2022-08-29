@@ -69,7 +69,7 @@ function navigateToEditPage(item){
 
 function homeNav(){
   closeMenuOne()
-  navigation.navigate("Home");
+  navigation.navigate("Habit");
 }
 function profileNav(){
   closeMenuOne()
@@ -142,8 +142,8 @@ function profileNav(){
         }
       >
         <Menu.Item
-            icon="home"
-            title="Home"
+            icon="login"
+            title="Create Habit"
             onPress={() => homeNav()}
           />
           <Menu.Item
@@ -200,7 +200,7 @@ function profileNav(){
       style={styles.button}
       icon="plus"
       mode="contained"
-      onPress={() => navigation.navigate("Home")}
+      onPress={() => navigation.navigate("Habit")}
       uppercase={false}
     >
       Add Habit

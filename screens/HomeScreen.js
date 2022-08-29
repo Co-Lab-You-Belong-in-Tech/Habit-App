@@ -64,7 +64,7 @@ const HomeScreen = ({navigation}) => {
           setAddUnit('');
           //release Keyboard
           Keyboard.dismiss();
-          navigation.navigate('Habit')
+          navigation.navigate('Home')
         })
         .catch(error => {
           alert(error);
@@ -81,7 +81,7 @@ const HomeScreen = ({navigation}) => {
 return (
   <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
     <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
-      <Appbar.BackAction onPress={() => navigation.navigate("Habit")} />
+      <Appbar.BackAction onPress={() => navigation.navigate("Home")} />
       <Appbar.Content title="Create a healthy habit" />
     </Appbar.Header>
     <View style={styles.formContainer}>
