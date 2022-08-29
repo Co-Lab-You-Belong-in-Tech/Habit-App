@@ -46,7 +46,8 @@
     "react-native-uuid": "^2.0.1",
     "react-native-web": "^0.17.7",
     "react-navigation": "^4.4.4",
-    "reanimated-bottom-sheet": "^1.0.0-alpha.22"
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22",
+    "expo-updates": "~0.13.4"
   },
   "devDependencies": {
     "firebase": "^9.9.1"
