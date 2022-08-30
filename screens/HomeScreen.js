@@ -154,14 +154,18 @@ return (
     <View style={styles.reminderContainer}>
       <Text style={styles.textReminder}>Reminders</Text>
       <View style={styles.offContainer}>
-        <Text style={styles.textOff}>Off</Text>
+      <Text style={styles.textOff}>Off</Text>
         <IconButton
+          style={styles.buttonOff}
           icon="chevron-right"
-          size={30}
+          size={24}
           onPress={() => console.log("Pressed")}
         />
+
       </View>
+    
     </View>
+
     <Button
       style={styles.button}
       mode="contained"
@@ -214,24 +218,28 @@ const styles = StyleSheet.create({
   },
   textPrivate: {
     justifyContent: "flex-start",
-    marginRight: 290,
+    
     marginLeft: 5,
     fontSize: 16,
   },
   textReminder: {
-    marginRight: 250,
-    marginLeft: 5,
+    position: 'absolute',
     fontSize: 16,
+    // top: 443,
+    left: 5,
+
+
   },
   offContainer: {
     justifyContent: "center",
     alignItems: "center",
+    position: 'absolute',
+    left: 294,
+   
+
+   
   },
-  textOff: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 18,
- },
+
   numberContainer: {
     flexDirection: "column",
     height: 80,
@@ -298,18 +306,27 @@ const styles = StyleSheet.create({
   privateContainer: {
     alignItems: "center",
     flexDirection: "row",
-    height: 50,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
+    maxWidth: 328,
+    alignContent: 'space-between',
+
+    
+    // height: 50,
+    marginLeft: 5,
+    // marginRight: 20,
+    // marginTop: 10,
   },
   reminderContainer: {
     alignItems: "center",
+    justifyContent: 'center',
     flexDirection: "row",
-    height: 50,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
+    width: 328,
+    marginLeft: 5,
+    // alignContent: 'space-between',
+
+    
+
+    // marginRight: 20,
+    marginTop: 30,
   },
   selectContainer: {
     borderRadius: 10,
@@ -322,10 +339,10 @@ const styles = StyleSheet.create({
     flex: 0.37,
     marginRight: 5,
   },
-  offContainer: {
-    justifyContent: "flex-end",
-    flexDirection: "row",
-  },
+  // offContainer: {
+  //   justifyContent: "flex-end",
+  //   flexDirection: "row",
+  // },
   firstInput: {
     borderRadius: 10,
     borderWidth: 2,
@@ -348,5 +365,28 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 5,
     marginLeft: 10,
+  },
+  textSwitch:{
+   position: 'absolute',
+   left: 309,
+    fontSize: 16,
+  },
+
+  textOff:{
+    position: 'absolute',
+    left: 0,
+    fontSize: 12,
+    lineHeight: 18,
+    fontFamily: 'Poppins_Medium',
+    color: "#414141",
+   
+    
+
+  },
+  buttonOff: {
+  position: 'absolute',
+  left: 8,
+  
+
   },
 });
