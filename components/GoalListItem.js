@@ -254,6 +254,11 @@ const styles = StyleSheet.create({
     marginRight: 5,
    textAlign: 'center',
    fontSize: 12,
+   fontFamily: 'Poppins_SemiBold',
+   letterSpacing: 1.03,
+   lineHeight: 18,
+   color: '#001D19',
+
   },
 
   minusButton: {

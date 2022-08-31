@@ -80,8 +80,8 @@ export default function ProfileScreen({navigation}) {
             onPress={() => homeNav()}
           />
           <Menu.Item
-            icon="login"
-            title="Create Habit"
+            icon="plus-thick"
+            title="Habit"
             onPress={() => habitNav()}
           />
         </Menu>
