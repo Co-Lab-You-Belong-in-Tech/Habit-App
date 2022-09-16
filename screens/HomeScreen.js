@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable, SafeAreaView,} from 'react-native';
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
@@ -22,7 +22,8 @@ const HomeScreen = ({navigation}) => {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-  
+
+ 
 
   const onButtonToggle = (value) => {
     setStatus(status === "checked" ? "unchecked" : "checked");
@@ -79,7 +80,7 @@ const HomeScreen = ({navigation}) => {
 
 
 return (
-  <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+  <SafeAreaView style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
     <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
       <Appbar.BackAction onPress={() => navigation.navigate("Home")} />
       <Appbar.Content title="Create a healthy habit" />
@@ -145,6 +146,7 @@ return (
       <Text style={styles.textPrivate}>Private</Text>
       <Text style={styles.textSwitch}>
         <Switch
+        style={{width: 35, height: 20, left: 309,}}
           color="#006052"
           value={isSwitchOn}
           onValueChange={onToggleSwitch}
@@ -174,7 +176,7 @@ return (
     >
       Create Habit
     </Button>
-  </View>
+  </SafeAreaView>
 );
 
 }
@@ -235,6 +237,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: 'absolute',
     left: 294,
+    ...Platform.select({ ios: { left: 350, }})
+
    
 
    
@@ -283,15 +287,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 14,
   },
-  toggleButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 100,
-    height: 120,
-    width: 120,
-    marginRight: 50,
-    marginTop: 15,
-  },
+  // toggleButton: {
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   borderRadius: 100,
+  //   height: 120,
+  //   // width: 120,
+  //   // marginRight: 50,
+  //   marginTop: 15,
+  //   position: 'absolute',
+  //   left: 320,
+    
+  // },
   twoContainer: {
     flexDirection: "row",
   },
@@ -370,6 +377,10 @@ const styles = StyleSheet.create({
    position: 'absolute',
    left: 309,
     fontSize: 16,
+    width: 35,
+    height: 20,
+    ...Platform.select({ ios: { left: 340, }})
+   
   },
 
   textOff:{
@@ -385,7 +396,10 @@ const styles = StyleSheet.create({
   },
   buttonOff: {
   position: 'absolute',
-  left: 8,
+  left: 16,
+  width: 24,
+  height: 24,
+
   
 
   },

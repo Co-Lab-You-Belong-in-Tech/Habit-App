@@ -1,4 +1,4 @@
-import { View, TextInput, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Text, Pressable, Switch } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, StyleSheet, TouchableOpacity, Text, Pressable, Switch, ScrollView } from 'react-native';
 import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useTogglePasswordVisibility } from '../hook/useTogglePasswordVisibility';
@@ -33,8 +33,8 @@ const LoginScreen = ({ navigation}) => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
-
-        <View style={{ flexDirection: 'row'}}>
+      <ScrollView>
+      <View style={{ flexDirection: 'row'}}>
           <Text style={styles.headingText}>Log in to CoHabit</Text>
         </View>
       <View style={styles.inputContainer}>
@@ -101,6 +101,10 @@ const LoginScreen = ({ navigation}) => {
             <Text style={styles.buttonPrimaryText}>Create Account</Text>
           </TouchableOpacity>
         </View>
+
+      </ScrollView>
+
+        
 
       
      

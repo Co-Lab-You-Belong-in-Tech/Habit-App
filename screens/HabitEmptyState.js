@@ -134,13 +134,13 @@ function profileNav(){
   }, []);
   // console.log("item1.id", goals[0].id);
 
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+ 
 
 
 
  if (goals.length === 0){
   return (
-    <View style={{ backgroundColor:  "#FFF1E7", flex: 1,}}>
+    <SafeAreaView style={{ backgroundColor:  "#FFF1E7", flex: 1,}}>
     <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
       <Menu
         style={styles.menuOneContainer}
@@ -196,13 +196,11 @@ function profileNav(){
           </Menu>
         ) : null}
       </Appbar.Header>
-      <View style={{ backgroundColor:  "#FFF1E7", flex: 1, top: 142,   ...Platform.select({ ios: {position: 'absolute', left: 16, }}),}}>
-
-      </View>
-      <View style={{position: "absolute", width: 328, height: 72, left: 16, top: 142,  }}>
+   
+      <View style={{position: "absolute", width: 328, height: 72, left: 16, top: 142,  ...Platform.select({ ios: { left: 43, }}),  }}>
         <Text style={{fontFamily: "Poppins_SemiBold", fontSize: 24, lineHeight: 36, textAlign: 'center', color: '#006052'}}>Start growing healthy habits today!</Text>
       </View>
-      <View style={{position: "absolute", width: 275, height: 275, left: 44, top: 230, }}>
+      <View style={{position: "absolute", width: 275, height: 275, left: 44, top: 230, ...Platform.select({ ios: { left: 70, }}) }}>
           <Image source={empty_goal}/>
       </View>
       <Pressable
@@ -215,14 +213,14 @@ function profileNav(){
       <Text style={{fontFamily: "Poppins_Medium", fontSize: 18, lineHeight: 27, textAlign: 'center', color: '#FFEAE0'}}>+ Add Habit</Text>
       
     </Pressable>
-  </View>
+  </SafeAreaView>
 
     )
 
  }else {
   return(
 
-    <View style={{ backgroundColor:  "#FFF1E7", flex: 1,}}>
+    <SafeAreaView style={{ backgroundColor:  "#FFF1E7", flex: 1,}}>
     <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
       <Menu
         style={styles.menuOneContainer}
@@ -233,8 +231,8 @@ function profileNav(){
         }
       >
         <Menu.Item
-            icon="login"
-            title="Create Habit"
+            icon="plus-thick"
+            title="Habit"
             onPress={() => homeNav()}
           />
           <Menu.Item
@@ -296,7 +294,7 @@ function profileNav(){
     >
       Add Habit
     </Button>
-  </View>
+  </SafeAreaView>
   )
 
  }
@@ -388,6 +386,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignContent: "center",
+    ...Platform.select({ ios: { left: 43, }})
 
   },
   

@@ -178,7 +178,7 @@ const [fontsLoaded, setFontsLoaded] = useState(false);
       }
   
   return (
-    <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
         <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
             <Appbar.Action icon="close" color="black" onPress={() => navigation.navigate('Profile')}/> 
             <Appbar.Action icon="account" />
@@ -295,7 +295,7 @@ const [fontsLoaded, setFontsLoaded] = useState(false);
                  style={styles.inputText}
             />
          </View>
-    </View>
+    </SafeAreaView>
     );
  }
 
