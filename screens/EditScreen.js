@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, SafeAreaView } from "react-native";
 import React from "react";
 import { useState} from "react";
 import { firebase } from "../config/firebase";
@@ -15,7 +15,7 @@ const EditScreen = ( {navigation, route}, props) => {
            heading: textHeading,
          })
          .then(() => {
-           navigation.navigate("Habit");
+           navigation.navigate("Home");
          })
          .catch((error) => {
            alert(error.message);
@@ -25,9 +25,9 @@ const EditScreen = ( {navigation, route}, props) => {
 
 
   return (
-    <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
     <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
-      <Appbar.BackAction onPress={() => navigation.navigate("Habit")} />
+      <Appbar.BackAction onPress={() => navigation.navigate("Home")} />
       <Appbar.Content title="Edit your habit" />
     </Appbar.Header>
     <View style={styles.formContainer}>
@@ -51,7 +51,7 @@ const EditScreen = ( {navigation, route}, props) => {
     >
       Save
     </Button>
-  </View>
+  </SafeAreaView>
   );
 };
 

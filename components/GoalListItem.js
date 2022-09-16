@@ -31,14 +31,20 @@ console.log("goallist----", item);
     const [addFinishedCount, setAddFinishedCount] = useState(item.finishedCount);
     // const [fillPercent, setFillPercent] = useState(0);
     const prevAddFinihedCountRef = useRef();
-    const [colorOne, setColorOne] = useState("#0000FF");
+    const[circleBg, setCircleBg] = useState("transparent");
+
+
+    const [colorOne, setColorOne] = useState("#000000");
     const [status, setStatus] = useState("checked");
     const [statusOne, setStatusOne] = useState("checked");
     const [colorTwo, setColorTwo] = useState("#000000");
+
+
+   
     
     const onEditToggle = () => {
-        setStatusOne(status === "checked" ? "unchecked" : "checked");
-        setColorOne(colorOne === "#0000FF" ? "#FFE2CD" : "#0000FF");
+        setStatusOne(statusOne === "checked" ? "unchecked" : "checked");
+        setColorOne(colorOne === "#000000" ? "#FFE2CD" : "#000000");
       };
 
       const onDeleteToggle = () => {
@@ -48,20 +54,8 @@ console.log("goallist----", item);
 
       const goalRef = firebase.firestore().collection("goals");
 
-// console.log("targetCount",item.targetCount);
-// console.log("addcount", addFinishedCount);
-// console.log(fillPercent + "%");
-
-    //  const handleFill =()=>{
-    //   let fillPercentage = ((addFinishedCount + 1) / item.targetCount) * 100;
-    //   setFillPercent(fillPercentage)
-    //     console.log(fillPercent + "%");
-    //  }
-
-    
-
-
       const deleteGoal = (item) => {
+       
         
         goalRef
           .doc(item.id)
@@ -93,35 +87,38 @@ console.log("goallist----", item);
 
 
         useEffect(() => {
-       
          handleFinishedCount(item)
           prevAddFinihedCountRef.current = addFinishedCount;
         }, [addFinishedCount]);
       
 
-    const onPlusToggle = () => {
+       const  handleCircleBg =()=>{
+        if(addFinishedCount  === item.targetCount){
+          setCircleBg("#2ecc71")
+        }else{
+          setCircleBg('transparent');
+
+        }
+        
+
+        }
+
+      const onPlusToggle = () => {
        if(addFinishedCount < item.targetCount){
         setFill(fill + 1);
-        setAddFinishedCount(addFinishedCount + 1)
-       
-        
-       }
-          
+        setAddFinishedCount(addFinishedCount + 1);
       
-       
-        }
+      }
+     }
       
         const onMinusToggle = () => {
           if(addFinishedCount > 0){
             setFill(fill - 1);
-            setAddFinishedCount(addFinishedCount - 1)
-           
+            setCircleBg('transparent');
+            setAddFinishedCount(addFinishedCount - 1);
+          }
+            
           
-           }
-         
-         
-        
-       
         }
     
 
@@ -146,30 +143,35 @@ console.log("goallist----", item);
             
                 
                 <ToggleButton
-                  style={styles.editButton}
-                  color={colorOne}
+                  // style={styles.editButton}
                   icon="pencil"
+                  color={colorOne}
                   value="check"
                   status={statusOne}
-                  onPress={() => navigation.navigate("Edit", {item}) }
+                  onPress={() =>navigation.navigate("Edit", {item})}
                 />
           </View>
           <View style={styles.innerContainer2}>
               <CircularProgress style={styles.circularProgress}
                     // rotation={0}
                     size={100}
-                    valuePrefix={item.targetCount}
-                    valueSuffix={item.unit}
+                    // valuePrefix={item.targetCount}
+                    valueSuffix={`/ ${item.targetCount}`}
+                    title={item.unit}
+                    titleStyle={{ fontWeight: 'bold', color: 'black', width: 60, }}
                     activeStrokeWidth={10}
                     value={addFinishedCount}
                     maxValue={item.targetCount}
                     inActiveStrokeColor={'red'}
                     radius={50}
-                    inActiveStrokeOpacity={0.5}
+                    inActiveStrokeOpacity={0.3}
+                    valueSuffixStyle={{paddingRight: 5, maxWidth: 50,}}
+                    circleBackgroundColor={circleBg}
+                    
                     
                     progressValueStyle={{ fontSize: 12, color: 'black' }}
                     tintColor="#006052"
-                    onAnimationComplete={() => console.log("onAnimationComplete")}
+                    onAnimationComplete={() =>   handleCircleBg()}
                     backgroundColor="#D9D9D9"
                   />
           </View>
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFE2CD",
     // padding: 2,
     borderRadius: 8,
-    margin: 5,
+    // margin: 5,
     marginHorizontal: 10,
     flexDirection: "column",
     alignItems: "center",
@@ -208,11 +210,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 156,
     height: 168,
+    // marginLeft: 20,
   },
   innerContainer1: {
     position: 'absolute',
     alignItems: "center",
-   
     flexDirection: 'row',
     height: 30,
     marginTop: 6,
@@ -223,8 +225,6 @@ const styles = StyleSheet.create({
   innerContainer2: {
     position: 'absolute',
     alignItems: "center",
-    
-   
     left: 27,
     top: 40,
     height: 100,
@@ -236,16 +236,14 @@ const styles = StyleSheet.create({
   },
   innerContainer3: {
     alignItems: "center",
-   
     flexDirection: 'row',
     position: 'absolute',
     left: 0,
-    top: 140,
-    height: 27,
-    
-  
+    top: 135,
+    height: 25,
   },
   deleteIcon:{
+    
 
   },
 
@@ -256,11 +254,17 @@ const styles = StyleSheet.create({
     marginRight: 5,
    textAlign: 'center',
    fontSize: 12,
+   fontFamily: 'Poppins_SemiBold',
+   letterSpacing: 1.03,
+   lineHeight: 18,
+   color: '#001D19',
+
   },
 
   minusButton: {
     marginRight:70,
    marginLeft: 2,
+   
    
   },
   plusButton: {

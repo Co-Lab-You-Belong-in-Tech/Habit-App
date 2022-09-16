@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { StyleSheet, Text, View,TouchableOpacity, KeyboardAvoidingView, TextInput, Pressable } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity, KeyboardAvoidingView, TextInput, Pressable, ScrollView } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 import { FontAwesome5} from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -72,6 +72,7 @@ let validateAndSet = (value,setValue) => {
   }
   return (
       <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
+        <ScrollView>
         <View style={{ flexDirection: 'row'}}>
           <Text style={styles.headingText}>Create a CoHabit account</Text>
         </View>
@@ -143,6 +144,7 @@ let validateAndSet = (value,setValue) => {
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
          </View>
+         </ScrollView>
          
       </KeyboardAvoidingView>
     )

@@ -6,6 +6,7 @@ import { Text } from 'react-native-paper';
 import { firebase } from '../config/firebase';
 import { useEffect, useState } from 'react';
 import { Appbar, Button, ToggleButton, IconButton, Menu} from "react-native-paper";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
 
 const auth = getAuth();
@@ -66,7 +67,7 @@ export default function ProfileScreen({navigation}) {
       
         <Appbar.Header style={styles.header}>
         <Menu
-            style={styles.menuOneContainer}
+            // style={styles.menuOneContainer}
             visible={visibleOne}
             onDismiss={closeMenuOne}
             anchor={
@@ -79,11 +80,11 @@ export default function ProfileScreen({navigation}) {
             onPress={() => homeNav()}
           />
           <Menu.Item
-            icon="login"
+            icon="plus-thick"
             title="Habit"
             onPress={() => habitNav()}
           />
-      </Menu>
+        </Menu>
             
             <Appbar.Action icon="account" />
             <Appbar.Content style={{ fontSize: 15 }} title="Profile" />
@@ -92,10 +93,10 @@ export default function ProfileScreen({navigation}) {
             onPress={() => console.log("Pressed")}
             />
         </Appbar.Header>
-        <View style={styles.editProfile}>
-            <Button mode="text" onPress={() => navigation.navigate("EditProfile")}>Edit Profile</Button>
-        </View>
-        <View style={styles.profileBox}>
+          <View style={styles.editProfile}>
+            <Button style={{fontFamily: "Poppins_Regular", fontSize: 12, lineHeight: 18,  }}mode="text" onPress={() => navigation.navigate("EditProfile")}>Edit Profile</Button>
+            </View>
+          <View style={styles.profileBox}>
             <Image 
             source={{uri: userData ? userData.userImg || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'}}
             style={styles.profileImg}
@@ -109,12 +110,13 @@ export default function ProfileScreen({navigation}) {
 
         </View>
         <View style={styles.textBoxThree}>
+            <MaterialCommunityIcons name="calendar-month" size={18} color="black" />
             <Text style={styles.date}>Joined {userData? moment(Date(userData.createdAt)).format('MMMM, YYYY'): null}</Text>
         </View>
         <View style={styles.textBoxFour}>
         <Button style={styles.button} icon="logout" mode="contained" onPress={() => signOut(auth)}>
-    Logout
-  </Button>
+          Logout
+         </Button>
 
             
         </View>
@@ -132,8 +134,11 @@ const styles = StyleSheet.create({
       backgroundColor: '#FFF1E7',
   },
   editProfile: {
+    position: 'absolute',
       alignSelf: 'flex-end',
       paddingRight: 25,
+      top: 96,
+      left: 230,
   },
   profileText: {
       fontSize: 18,
@@ -161,10 +166,15 @@ const styles = StyleSheet.create({
       position: 'absolute'
   },
   userName: {
+    fontFamily: 'Poppins_Medium',
       fontSize: 16,
+      lineHeight: 24,
+       color: "#002722",
   },
   email: {
       fontSize: 12,
+      lineHeight: 18,
+      fontFamily: 'Poppins_Regular',
   },
   textBoxTwo: {
       justifyContent: 'flex-start',
@@ -173,6 +183,7 @@ const styles = StyleSheet.create({
       top: 194,
   },
   textBoxThree: {
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     paddingLeft: 15,
     position: 'absolute',
@@ -180,6 +191,9 @@ const styles = StyleSheet.create({
 },
 date: {
     fontSize: 12,
+    fontFamily: 'Poppins_Regular',
+    lineHeight: 18,
+    marginLeft: 4,
 },
 button: {
     backgroundColor: "#006052",
@@ -196,6 +210,6 @@ button: {
     justifyContent: 'flex-start',
     paddingLeft: 15,
     position: 'absolute',
-    top:250,
+    top:160,
 },
 });

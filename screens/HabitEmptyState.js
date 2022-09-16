@@ -1,15 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import { useAuthentication } from '../hook/useAuthentication';
-import { Button, Appbar, Menu, MenuItem, Drawer, ToggleButton, IconButton, TouchableOpacity} from "react-native-paper";
-import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from "react-native";
+import { Button, Appbar, Menu, MenuItem, Drawer, ToggleButton, IconButton, TouchableOpacity, } from "react-native-paper";
+import { StyleSheet, Text, View, FlatList, Pressable, Image, Platform, SafeAreaView} from "react-native";
 import { firebase } from "../config/firebase";
 import { getAuth } from "firebase/auth";
 import * as Svg from "react-native-svg";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import CircularProgress from 'react-native-circular-progress-indicator';
 import GoalListItem from '../components/GoalListItem';
+import empty_goal from '../assets/empty_goal.png';
+
+
 
 const HabitEmptyState = ({navigation, back}) => {
+
+ 
+
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -69,7 +75,7 @@ function navigateToEditPage(item){
 
 function homeNav(){
   closeMenuOne()
-  navigation.navigate("Home");
+  navigation.navigate("Habit");
 }
 function profileNav(){
   closeMenuOne()
@@ -130,8 +136,11 @@ function profileNav(){
 
  
 
-  return(
-    <View style={{ backgroundColor:  "#FFF1E7", flex: 1 }}>
+
+
+ if (goals.length === 0){
+  return (
+    <SafeAreaView style={{ backgroundColor:  "#FFF1E7", flex: 1,}}>
     <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
       <Menu
         style={styles.menuOneContainer}
@@ -142,8 +151,88 @@ function profileNav(){
         }
       >
         <Menu.Item
-            icon="home"
-            title="Home"
+            icon="plus-thick"
+            title="Habit"
+            onPress={() => homeNav()}
+          />
+          <Menu.Item
+            icon="account"
+            title="Profile"
+            onPress={() => profileNav()}
+          />
+          {/* <Menu.Item
+            icon="login"
+            title="Login"
+            onPress={() => navigation.navigate("Welcome")}
+          /> */}
+      </Menu>
+      <Appbar.Content title="CoHabit" />
+      {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+      {!back ? (
+        <Menu
+          style={styles.doneButton}
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={
+            <Appbar.Action
+              icon="dots-vertical"
+              color="black"
+              onPress={openMenu}
+            />
+          }
+        >
+          <Menu.Item
+              icon="pencil"
+              onPress={onEditToggle}
+              color="black"
+              title="Edit"
+            />
+            <Menu.Item
+              icon="delete"
+              onPress={onDeleteToggle}
+              color="black"
+              title="Delete"
+            />
+          </Menu>
+        ) : null}
+      </Appbar.Header>
+   
+      <View style={{position: "absolute", width: 328, height: 72, left: 16, top: 142,  ...Platform.select({ ios: { left: 43, }}),  }}>
+        <Text style={{fontFamily: "Poppins_SemiBold", fontSize: 24, lineHeight: 36, textAlign: 'center', color: '#006052'}}>Start growing healthy habits today!</Text>
+      </View>
+      <View style={{position: "absolute", width: 275, height: 275, left: 44, top: 230, ...Platform.select({ ios: { left: 70, }}) }}>
+          <Image source={empty_goal}/>
+      </View>
+      <Pressable
+      style={styles.emptyButton}
+      icon="plus"
+      mode="contained"
+      onPress={() => navigation.navigate("Habit")}
+      uppercase={false}
+      >
+      <Text style={{fontFamily: "Poppins_Medium", fontSize: 18, lineHeight: 27, textAlign: 'center', color: '#FFEAE0'}}>+ Add Habit</Text>
+      
+    </Pressable>
+  </SafeAreaView>
+
+    )
+
+ }else {
+  return(
+
+    <SafeAreaView style={{ backgroundColor:  "#FFF1E7", flex: 1,}}>
+    <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
+      <Menu
+        style={styles.menuOneContainer}
+        visible={visibleOne}
+        onDismiss={closeMenuOne}
+        anchor={
+          <Appbar.Action icon="menu" color="black" onPress={openMenuOne} />
+        }
+      >
+        <Menu.Item
+            icon="plus-thick"
+            title="Habit"
             onPress={() => homeNav()}
           />
           <Menu.Item
@@ -187,7 +276,7 @@ function profileNav(){
           </Menu>
         ) : null}
     </Appbar.Header>
-    <FlatList
+    <FlatList style={{alignSelf: 'center'}}
       data={goals}
       numColumns={2}
       renderItem={({ item }) => (
@@ -200,13 +289,17 @@ function profileNav(){
       style={styles.button}
       icon="plus"
       mode="contained"
-      onPress={() => navigation.navigate("Home")}
+      onPress={() => navigation.navigate("Habit")}
       uppercase={false}
     >
       Add Habit
     </Button>
-  </View>
-  )};
+  </SafeAreaView>
+  )
+
+ }
+
+  };
 
   export default HabitEmptyState
 
@@ -235,10 +328,10 @@ const styles = StyleSheet.create({
 
   container: {
     backgroundColor: "#FFE2CD",
-    padding: 15,
-    borderRadius: 15,
-    margin: 5,
-    marginHorizontal: 10,
+    // padding: 15,
+    // borderRadius: 15,
+    // margin: 5,
+    // marginHorizontal: 10,
     flexDirection: "column",
     alignItems: "center",
     marginTop: 20,
@@ -282,6 +375,19 @@ const styles = StyleSheet.create({
   },
   doneButton: {
     marginTop: 40,
-  }
+  },
+  emptyButton: {
+    backgroundColor: '#006052',
+    height: 57,
+    width: 328,
+    position: 'absolute',
+    left: 16,
+    top: 567,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignContent: "center",
+    ...Platform.select({ ios: { left: 43, }})
+
+  },
   
 });

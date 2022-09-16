@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Keyboard, Pressable, SafeAreaView,} from 'react-native';
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
@@ -22,7 +22,8 @@ const HomeScreen = ({navigation}) => {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-  
+
+ 
 
   const onButtonToggle = (value) => {
     setStatus(status === "checked" ? "unchecked" : "checked");
@@ -64,7 +65,7 @@ const HomeScreen = ({navigation}) => {
           setAddUnit('');
           //release Keyboard
           Keyboard.dismiss();
-          navigation.navigate('Habit')
+          navigation.navigate('Home')
         })
         .catch(error => {
           alert(error);
@@ -79,9 +80,9 @@ const HomeScreen = ({navigation}) => {
 
 
 return (
-  <View style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
+  <SafeAreaView style={{ backgroundColor: "#FFF1E7", flex: 1 }}>
     <Appbar.Header style={{ backgroundColor: "#FFF1E7" }}>
-      <Appbar.BackAction onPress={() => navigation.navigate("Habit")} />
+      <Appbar.BackAction onPress={() => navigation.navigate("Home")} />
       <Appbar.Content title="Create a healthy habit" />
     </Appbar.Header>
     <View style={styles.formContainer}>
@@ -145,6 +146,7 @@ return (
       <Text style={styles.textPrivate}>Private</Text>
       <Text style={styles.textSwitch}>
         <Switch
+        style={{width: 35, height: 20, left: 309,}}
           color="#006052"
           value={isSwitchOn}
           onValueChange={onToggleSwitch}
@@ -154,14 +156,18 @@ return (
     <View style={styles.reminderContainer}>
       <Text style={styles.textReminder}>Reminders</Text>
       <View style={styles.offContainer}>
-        <Text style={styles.textOff}>Off</Text>
+      <Text style={styles.textOff}>Off</Text>
         <IconButton
+          style={styles.buttonOff}
           icon="chevron-right"
-          size={30}
+          size={24}
           onPress={() => console.log("Pressed")}
         />
+
       </View>
+    
     </View>
+
     <Button
       style={styles.button}
       mode="contained"
@@ -170,7 +176,7 @@ return (
     >
       Create Habit
     </Button>
-  </View>
+  </SafeAreaView>
 );
 
 }
@@ -214,24 +220,30 @@ const styles = StyleSheet.create({
   },
   textPrivate: {
     justifyContent: "flex-start",
-    marginRight: 290,
+    
     marginLeft: 5,
     fontSize: 16,
   },
   textReminder: {
-    marginRight: 250,
-    marginLeft: 5,
+    position: 'absolute',
     fontSize: 16,
+    // top: 443,
+    left: 5,
+
+
   },
   offContainer: {
     justifyContent: "center",
     alignItems: "center",
+    position: 'absolute',
+    left: 294,
+    ...Platform.select({ ios: { left: 350, }})
+
+   
+
+   
   },
-  textOff: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 18,
- },
+
   numberContainer: {
     flexDirection: "column",
     height: 80,
@@ -275,15 +287,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 14,
   },
-  toggleButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 100,
-    height: 120,
-    width: 120,
-    marginRight: 50,
-    marginTop: 15,
-  },
+  // toggleButton: {
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   borderRadius: 100,
+  //   height: 120,
+  //   // width: 120,
+  //   // marginRight: 50,
+  //   marginTop: 15,
+  //   position: 'absolute',
+  //   left: 320,
+    
+  // },
   twoContainer: {
     flexDirection: "row",
   },
@@ -298,18 +313,27 @@ const styles = StyleSheet.create({
   privateContainer: {
     alignItems: "center",
     flexDirection: "row",
-    height: 50,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
+    maxWidth: 328,
+    alignContent: 'space-between',
+
+    
+    // height: 50,
+    marginLeft: 5,
+    // marginRight: 20,
+    // marginTop: 10,
   },
   reminderContainer: {
     alignItems: "center",
+    justifyContent: 'center',
     flexDirection: "row",
-    height: 50,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
+    width: 328,
+    marginLeft: 5,
+    // alignContent: 'space-between',
+
+    
+
+    // marginRight: 20,
+    marginTop: 30,
   },
   selectContainer: {
     borderRadius: 10,
@@ -322,10 +346,10 @@ const styles = StyleSheet.create({
     flex: 0.37,
     marginRight: 5,
   },
-  offContainer: {
-    justifyContent: "flex-end",
-    flexDirection: "row",
-  },
+  // offContainer: {
+  //   justifyContent: "flex-end",
+  //   flexDirection: "row",
+  // },
   firstInput: {
     borderRadius: 10,
     borderWidth: 2,
@@ -348,5 +372,35 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 5,
     marginLeft: 10,
+  },
+  textSwitch:{
+   position: 'absolute',
+   left: 309,
+    fontSize: 16,
+    width: 35,
+    height: 20,
+    ...Platform.select({ ios: { left: 340, }})
+   
+  },
+
+  textOff:{
+    position: 'absolute',
+    left: 0,
+    fontSize: 12,
+    lineHeight: 18,
+    fontFamily: 'Poppins_Medium',
+    color: "#414141",
+   
+    
+
+  },
+  buttonOff: {
+  position: 'absolute',
+  left: 16,
+  width: 24,
+  height: 24,
+
+  
+
   },
 });

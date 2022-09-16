@@ -4,12 +4,14 @@ import { FontAwesome5} from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading'; 
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
+import { Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 const fetchFonts = () => {
     return Font.loadAsync({
         Poppins_Bold: require('../assets/fonts/Poppins-Bold.ttf'),
         Poppins_Regular: require('../assets/fonts/Poppins-Regular.ttf'),
-        Poppins_Medium: require('../assets/fonts/Poppins-Medium.ttf')
+        Poppins_Medium: require('../assets/fonts/Poppins-Medium.ttf'),
+        Poppins_SemiBold: require('../assets/fonts/Poppins-SemiBold.ttf')
     })};
 
 
